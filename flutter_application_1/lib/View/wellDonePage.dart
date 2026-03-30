@@ -62,10 +62,14 @@ Widget build(BuildContext context) {
       children: [
         Align(
           alignment:Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 120),
+            
           child: Column(
             children: const [
               Text('WELL DONE!', style: TextStyle(fontSize: 24)),
-            ],
+             ],
+            ),
           ),
         ),
 
@@ -122,10 +126,24 @@ Widget build(BuildContext context) {
           ),
         ),
          Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             child: ConfettiWidget(
               confettiController: _controller,
-              blastDirection: pi / 2,
+              blastDirection: pi / 4,
+              emissionFrequency: 0.05,
+              numberOfParticles: 20,
+              maxBlastForce: 20,
+              minBlastForce: 5,
+              gravity: 0.3,
+              shouldLoop: false,
+            ),
+          ),
+          
+            Align(
+            alignment: Alignment.topRight,
+            child: ConfettiWidget(
+              confettiController: _controller,
+              blastDirection: pi / 1,
               emissionFrequency: 0.05,
               numberOfParticles: 20,
               maxBlastForce: 20,
