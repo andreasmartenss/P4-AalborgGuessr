@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:confetti/confetti.dart';
+import 'dart:math';
 void main() {
   runApp(const WellDonePage());
 }
@@ -36,6 +38,21 @@ void _UIbutton() {
     setState(() {
       
     });
+  }
+
+  late ConfettiController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ConfettiController(duration: Duration(seconds: 3));
+    _controller.play(); // starter automatisk
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
 @override
@@ -96,13 +113,27 @@ Widget build(BuildContext context) {
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 23
-                      ),),
+                      ),
+                      ),
                   ),
                 ),
               ),
             ),
           ),
         ),
+         Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _controller,
+              blastDirection: pi / 2,
+              emissionFrequency: 0.05,
+              numberOfParticles: 20,
+              maxBlastForce: 20,
+              minBlastForce: 5,
+              gravity: 0.3,
+              shouldLoop: false,
+            ),
+          ),
       ],
     ),
   );
