@@ -171,8 +171,8 @@ class _ScorePageState extends State<ScorePage> {
                         // TODO: handle next
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4CAF50),
-                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(216, 110, 183, 58),
+                        foregroundColor: Colors.black,
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
