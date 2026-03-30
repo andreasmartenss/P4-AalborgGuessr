@@ -15,7 +15,7 @@ class WellDonePage extends StatelessWidget {
     return MaterialApp(
       title: 'Well done page',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.amberAccent),
+        colorScheme: .fromSeed(seedColor: const Color(0x00fffae6)),
         textTheme: GoogleFonts.signikaTextTheme(),
       ),
       home: const UIPage(title: 'Well Done Page'),
@@ -63,11 +63,11 @@ Widget build(BuildContext context) {
         Align(
           alignment:Alignment.topCenter,
           child: Padding(
-            padding: const EdgeInsets.only(top: 120),
+            padding: const EdgeInsets.only(top: 80),
             
           child: Column(
             children: const [
-              Text('WELL DONE!', style: TextStyle(fontSize: 24)),
+              Text('WELL DONE!', style: TextStyle(fontSize: 40)),
              ],
             ),
           ),
@@ -77,15 +77,15 @@ Widget build(BuildContext context) {
           child: Column(
             mainAxisAlignment: .center,
             children: const [
-              Text("ROUND 1:", style: TextStyle(fontSize: 20)),
+              Text("ROUND 1:", style: TextStyle(fontSize: 25)),
               Text(" ", style: TextStyle(fontSize: 20)),
-              Text("ROUND 2:", style: TextStyle(fontSize: 20)),
+              Text("ROUND 2:", style: TextStyle(fontSize: 25)),
               Text(" ", style: TextStyle(fontSize: 20)),
-              Text("ROUND 3:", style: TextStyle(fontSize: 20)),
+              Text("ROUND 3:", style: TextStyle(fontSize: 25)),
               Text(" ", style: TextStyle(fontSize: 20)),
-              Text("ROUND 4:", style: TextStyle(fontSize: 20)),
+              Text("ROUND 4:", style: TextStyle(fontSize: 25)),
               Text(" ", style: TextStyle(fontSize: 20)),
-              Text("ROUND 5:", style: TextStyle(fontSize: 20)),
+              Text("ROUND 5:", style: TextStyle(fontSize: 25)),
             ],
           ),
         ),
@@ -93,12 +93,12 @@ Widget build(BuildContext context) {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.all(30),
+            padding: const EdgeInsets.all(130),
             child: LiquidGlassLayer(
               settings: const LiquidGlassSettings(
                 blur: 10,
                 thickness: 20,
-                glassColor: Color.fromARGB(51, 131, 169, 108), 
+                glassColor: Color.fromARGB(255, 139, 207, 95), 
               ),
               child: LiquidGlass(
                 shape: LiquidRoundedSuperellipse(borderRadius: 30),
@@ -108,7 +108,7 @@ Widget build(BuildContext context) {
                   child: ElevatedButton(
                     onPressed: _UIbutton,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, 
+                      backgroundColor: const Color.fromARGB(255, 110, 184, 58), 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
