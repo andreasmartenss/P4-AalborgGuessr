@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Aalborg Guessr',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const HomePage(),
-    );
+    return MaterialApp(title: 'Aalborg Guessr', home: const HomePage());
   }
 }
 
@@ -60,11 +56,10 @@ class HomePage extends StatelessWidget {
                 const Spacer(),
 
                 // Title
-                const Text(
+                Text(
                   'Aalborg\nGuessr',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Georgia',
+                  style: GoogleFonts.signika(
                     fontSize: 64,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
@@ -84,9 +79,9 @@ class HomePage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ), // pushes the text down, so the GIF overlaps it
-                        const Text(
+                        Text(
                           'HIGHSCORE',
-                          style: TextStyle(
+                          style: GoogleFonts.signika(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
@@ -94,12 +89,12 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
+                        Text(
                           '4821',
-                          style: TextStyle(
+                          style: GoogleFonts.signika(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Color(0xDD000000),
                           ),
                         ),
                       ],
@@ -117,31 +112,36 @@ class HomePage extends StatelessWidget {
 
                 // New Game button
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 48.0,
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 64,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Navigate to game screen
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4CAF50),
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        elevation: 4,
-                      ),
-                      child: const Text(
-                        'NEW GAME',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
+                  padding: const EdgeInsets.only(bottom: 60),
+                  child: LiquidGlassLayer(
+                    settings: const LiquidGlassSettings(
+                      blur: 10,
+                      thickness: 20,
+                      glassColor: Color.fromARGB(255, 40, 120, 10),
+                    ),
+                    child: LiquidGlass(
+                      shape: LiquidRoundedSuperellipse(borderRadius: 30),
+                      child: SizedBox(
+                        width: 220,
+                        height: 64,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            'NEW GAME',
+                            style: GoogleFonts.signika(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              letterSpacing: 2,
+                            ),
+                          ),
                         ),
                       ),
                     ),
