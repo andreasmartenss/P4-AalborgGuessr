@@ -15,19 +15,22 @@ class GamePage extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       ),
-      home: const GamePage(),
+      home: const TheGamePage(title: 'game page'),
     );
   }
 }
 
 class TheGamePage extends StatefulWidget {
-  const TheGamePage({super.key});
+  const TheGamePage({super.key, required this.title});
+
+  final String title;
 
   @override
   State<TheGamePage> createState() => _TheGamePageState();
 }
 
 class _TheGamePageState extends State<TheGamePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
