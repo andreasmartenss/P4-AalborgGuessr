@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
 
                 // New Game button
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 60),
+                  padding: const EdgeInsets.only(bottom: 150),
                   child: LiquidGlassLayer(
                     settings: const LiquidGlassSettings(
                       blur: 10,
