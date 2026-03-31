@@ -87,7 +87,7 @@ class _TheGamePageState extends State<TheGamePage> {
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () {},
-                    icon: const Icon(Icons.cancel, size: 36, color: Colors.black),
+                    icon: const Icon(Icons.cancel_outlined, size: 36, color: Colors.black),
                   ), // IconButton
                 ), // Align
                 // Centered GUESS button
