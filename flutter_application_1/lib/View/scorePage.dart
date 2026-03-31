@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const ScorePageApp());
-}
-
 class ScorePageApp extends StatelessWidget {
   const ScorePageApp({super.key});
 

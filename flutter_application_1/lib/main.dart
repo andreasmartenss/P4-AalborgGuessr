@@ -1,3 +1,12 @@
+import 'package:flutter/material.dart';
+import 'View/scorePage.dart';
+
+void main() {
+  runApp(const ScorePageApp());
+}
+
+
+
 /*
 import 'package:flutter/material.dart';
 
