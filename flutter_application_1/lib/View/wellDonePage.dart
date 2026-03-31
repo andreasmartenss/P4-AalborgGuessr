@@ -15,7 +15,6 @@ class WellDonePage extends StatelessWidget {
     return MaterialApp(
       title: 'Well done page',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: const Color(0x00fffae6)),
         textTheme: GoogleFonts.signikaTextTheme(),
       ),
       home: const UIPage(title: 'Well Done Page'),
@@ -58,7 +57,19 @@ class _UIPageState extends State<UIPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      backgroundColor: Colors.transparent, // 👈 vigtigt
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.center,
+            radius: 1.2,
+            colors: [
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromARGB(255, 255, 250, 225),
+            ],
+          ),
+        ),
+      child: Stack(
         children: [
           Align(
             alignment:Alignment.topCenter,
@@ -68,11 +79,11 @@ class _UIPageState extends State<UIPage> {
             child: Column(
               children: const [
                 Text('WELL DONE!', style: TextStyle(fontSize: 40)),
-              ],
+                ],
               ),
             ),
           ),
-
+      
           Align(
             child: Column(
               mainAxisAlignment: .center,
@@ -152,8 +163,9 @@ class _UIPageState extends State<UIPage> {
                 shouldLoop: false,
               ),
             ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 }
