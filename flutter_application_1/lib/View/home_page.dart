@@ -59,9 +59,8 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Aalborg\nGuessr',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.signika(
-                    fontSize: 64,
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.cutive(
+                    fontSize: 48,
                     color: Colors.black87,
                     height: 1.1,
                   ),
