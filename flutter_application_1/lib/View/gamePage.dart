@@ -168,15 +168,13 @@ class _TheGamePageState extends State<TheGamePage> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // Cancel button on the left
                     Align(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
                         onPressed: _showSkipExitDialog,
                         icon: const Icon(Icons.cancel_outlined, size: 36, color: Colors.black),
-                      ), // IconButton
-                    ), // Align
-                    // Centered GUESS button
+                      ),
+                    ),
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
@@ -185,7 +183,7 @@ class _TheGamePageState extends State<TheGamePage> {
                           backgroundColor: const Color.fromARGB(216, 110, 183, 58),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: const StadiumBorder(),
-                        ), // styleFrom
+                        ),
                         child: Text(
                           'GUESS!',
                           style: GoogleFonts.signika(
