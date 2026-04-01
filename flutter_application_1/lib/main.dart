@@ -13,7 +13,7 @@ void main() {
   );
 }
 
-/* KODE TIL TEST AF GPS.
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-*/
+
 
 /*
 import 'package:flutter/material.dart';
