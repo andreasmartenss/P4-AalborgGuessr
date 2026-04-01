@@ -28,7 +28,7 @@ class GamePageVM extends ChangeNotifier {
 
   void skipRound() {
     currentRound++;
-    timeUsage = 150;
+    timeUsage = 0;
     notifyListeners();
   } 
 
