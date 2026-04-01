@@ -5,7 +5,7 @@ class GamePageVM extends ChangeNotifier {
   int score = 0;
   int currentRound = 1;
   int totalRounds = 5;
-  int timeUsage = 150;
+  int timeUsage = 0;
 
   Timer? _timer;
 
@@ -17,20 +17,31 @@ class GamePageVM extends ChangeNotifier {
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (timeUsage > 0) {
-        timeUsage--;
+        timeUsage++;
         notifyListeners();
-      } else {
-        timer.cancel();
-      }
     });
   }
 
-  void skipRound() {
-    currentRound++;
-    timeUsage = 150;
+  void startRound() {
+    timeUsage = 0;
+    _timer?.cancel();
+    startTimer();
     notifyListeners();
-  } 
+  }
+
+  void nextRound() {
+    if (currentRound < totalRounds) {
+      currentRound++;
+      startRound();
+    } else {
+      _timer?.cancel();
+    }
+    notifyListeners();
+  }
+
+  void skipRound() {
+  nextRound();
+  }
 
   void leaveGame() {
     _timer?.cancel();
@@ -38,7 +49,7 @@ class GamePageVM extends ChangeNotifier {
   }
 
   void onGuess() {
-    // guess logic skal her
+    nextRound();// guess logic skal her
     notifyListeners();
   }
 

@@ -36,7 +36,7 @@ class _TheGamePageState extends State<TheGamePage> {
   @override
   void initState() {
     super.initState();
-    _gamePageVM.startTimer();
+    _gamePageVM.startRound();
   }
 
   @override
@@ -178,7 +178,7 @@ class _TheGamePageState extends State<TheGamePage> {
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _gamePageVM.onGuess,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(216, 110, 183, 58),
                           padding: const EdgeInsets.symmetric(vertical: 12),
