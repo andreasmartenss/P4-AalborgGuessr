@@ -9,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(title: 'Aalborg Guessr', home: const HomePage());
@@ -25,13 +24,8 @@ class HomePage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background picture
           Image.asset('assets/AalborgLuftfoto.jpeg', fit: BoxFit.cover),
-
-          // Semi-transparent white overlay
           Container(color: Colors.white.withValues(alpha: 0.25)),
-
-          // Foreground content
           SafeArea(
             child: Column(
               children: [
@@ -47,7 +41,35 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.info_outline, size: 28),
                       color: Colors.black87,
                       onPressed: () {
-                        // TODO: Show info dialog
+                        showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (_) => AlertDialog(
+                            title: const Text('text'),
+                            content: const Text('more text'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: const Color.fromARGB(255, 50, 50, 50),
+                                ),
+                                child: Text('Close'),
+                              ),
+                            ],
+                            elevation: 24.0,
+                            actionsPadding: const EdgeInsets.only(right: 12.0, bottom: 8.0),
+                            backgroundColor: Color.fromARGB(255, 255, 250, 225),
+                            titleTextStyle: GoogleFonts.signika(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            contentTextStyle: GoogleFonts.signika(
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -72,12 +94,9 @@ class HomePage extends StatelessWidget {
                   clipBehavior: Clip.none,
                   alignment: Alignment.topCenter,
                   children: [
-                    // Highscore text is places underneath
                     Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ), // pushes the text down, so the GIF overlaps it
+                        const SizedBox(height: 10),
                         Text(
                           'HIGHSCORE',
                           style: GoogleFonts.signika(
@@ -93,12 +112,11 @@ class HomePage extends StatelessWidget {
                           style: GoogleFonts.signika(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xDD000000),
+                            color: const Color(0xDD000000),
                           ),
                         ),
                       ],
                     ),
-
                     Image.asset(
                       'assets/StarsSparkle.gif',
                       width: 120,
