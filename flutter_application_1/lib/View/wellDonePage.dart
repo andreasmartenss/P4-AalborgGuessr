@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/home_page.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
@@ -33,7 +36,13 @@ class UIPage extends StatefulWidget {
 
 class _UIPageState extends State<UIPage> {
   void _UIbutton() {
-    setState(() {});
+    setState(() {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    });
   }
 
   late ConfettiController _controller;
@@ -105,10 +114,7 @@ class _UIPageState extends State<UIPage> {
                 child: IconButton(
                   icon: const Icon(Icons.share),
                   onPressed: () {
-                    Share.share(
-                      'Share your score!',
-                      subject: 'AalborgGuessur',
-                    );
+                    Share.share('Share your score!', subject: 'AalborgGuessur');
                   },
                 ),
               ),
@@ -156,6 +162,7 @@ class _UIPageState extends State<UIPage> {
                 ),
               ),
             ),
+
             Align(
               alignment: Alignment.topLeft,
               child: ConfettiWidget(
