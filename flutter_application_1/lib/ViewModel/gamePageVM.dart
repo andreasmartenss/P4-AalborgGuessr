@@ -5,7 +5,7 @@ class GamePageVM extends ChangeNotifier {
   int score = 0;
   int currentRound = 1;
   int totalRounds = 5;
-  int timeUsage = 150;
+  int timeUsage = 0;
 
   Timer? _timer;
 
