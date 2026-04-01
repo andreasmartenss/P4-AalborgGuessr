@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'View/scorePage.dart';
+import 'ViewModel/gps_location_VM.dart';
 
 void main() {
-  runApp(const ScorePageApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => GpsLocationVM(),
+      child: const ScorePageApp(),
+    ),
+  );
 }
-
 
 
 /*
