@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/gamePage.dart';
 import 'View/scorePage.dart';
+import 'View/gamePage.dart';
 
 void main() {
-  runApp(const ScorePageApp());
+  runApp(const GamePage());
 }
 
 

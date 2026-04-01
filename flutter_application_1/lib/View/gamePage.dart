@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../ViewModel/gamePageVM.dart';
 
 void main() {
   runApp(const GamePage());
@@ -30,93 +31,175 @@ class TheGamePage extends StatefulWidget {
 }
 
 class _TheGamePageState extends State<TheGamePage> {
+  final GamePageVM _gamePageVM = GamePageVM();
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '02:30',
-                  style: GoogleFonts.signika(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Score: 2500',
-                  style: GoogleFonts.signika(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '2/5',
-                  style: GoogleFonts.signika(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+  void initState() {
+    super.initState();
+    _gamePageVM.startTimer();
+  }
+
+  @override
+  void dispose() {
+    _gamePageVM.dispose();
+    super.dispose();
+  }
+
+  void _showSkipExitDialog() {
+    showDialog(
+      context: context, 
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Skip round or leave game?",
+          style: GoogleFonts.signika(
+            fontSize: 14,
+            color: Colors.grey,
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(8),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  _gamePageVM.skipRound();
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
-                child: const Center(
-                  child: Icon(Icons.image, size: 64, color: Colors.grey),
+                child: Text(
+                  'SKIP',
+                  style: GoogleFonts.signika(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Cancel button on the left
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.cancel_outlined, size: 36, color: Colors.black),
-                  ), // IconButton
-                ), // Align
-                // Centered GUESS button
-                SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(216, 110, 183, 58),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: const StadiumBorder(),
-                    ), // styleFrom
-                    child: Text(
-                      'GUESS!',
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  _gamePageVM.leaveGame();
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+                child: Text(
+                  'LEAVE',
+                  style: GoogleFonts.signika(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: _gamePageVM, 
+      builder: (context, child) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _gamePageVM.formattedTime,
                       style: GoogleFonts.signika(
-                        fontSize: 25,
-                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    Text(
+                      'Score: ${_gamePageVM.score}',
+                      style: GoogleFonts.signika(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '${_gamePageVM.currentRound}/${_gamePageVM.totalRounds}',
+                      style: GoogleFonts.signika(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.image, size: 64, color: Colors.grey),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: _showSkipExitDialog,
+                        icon: const Icon(Icons.cancel_outlined, size: 36, color: Colors.black),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(216, 110, 183, 58),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: const StadiumBorder(),
+                        ),
+                        child: Text(
+                          'GUESS!',
+                          style: GoogleFonts.signika(
+                            fontSize: 25,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
