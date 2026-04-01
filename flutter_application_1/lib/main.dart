@@ -1,13 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/gamePage.dart';
-import 'View/scorePage.dart';
-import 'View/gamePage.dart';
+import 'package:flutter/material.dart'; // Importer Flutter material design pakke
+import 'package:provider/provider.dart'; // Importer Provider til state management
+import 'View/scorePage.dart'; // Importer ScorePageApp
+import 'ViewModel/gps_location_VM.dart'; // Importer GpsLocationVM
+import 'View/test_location_page.dart'; // Importer TestLocationPage
 
 void main() {
-  runApp(const GamePage());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => GpsLocationVM(),
+      child: const ScorePageApp(),
+    ),
+  );
 }
 
+/* KODE TIL TEST AF GPS.
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: const TestLocationPage(),
+    );
+  }
+}
+*/
 
 /*
 import 'package:flutter/material.dart';
