@@ -17,20 +17,31 @@ class GamePageVM extends ChangeNotifier {
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (timeUsage > 0) {
-        timeUsage--;
+        timeUsage++;
         notifyListeners();
-      } else {
-        timer.cancel();
-      }
     });
   }
 
-  void skipRound() {
-    currentRound++;
+  void startRound() {
     timeUsage = 0;
+    _timer?.cancel();
+    startTimer();
     notifyListeners();
-  } 
+  }
+
+  void nextRound() {
+    if (currentRound < totalRounds) {
+      currentRound++;
+      startRound();
+    } else {
+      _timer?.cancel();
+    }
+    notifyListeners();
+  }
+
+  void skipRound() {
+  nextRound();
+  }
 
   void leaveGame() {
     _timer?.cancel();
@@ -38,7 +49,7 @@ class GamePageVM extends ChangeNotifier {
   }
 
   void onGuess() {
-    // guess logic skal her
+    nextRound();// guess logic skal her
     notifyListeners();
   }
 
