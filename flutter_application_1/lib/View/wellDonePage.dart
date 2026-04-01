@@ -3,6 +3,8 @@ import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
+import 'package:share_plus/share_plus.dart';
+
 void main() {
   runApp(const WellDonePage());
 }
@@ -14,12 +16,10 @@ class WellDonePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Well done page',
-      theme: ThemeData(
-        textTheme: GoogleFonts.signikaTextTheme(),
-      ),
+      theme: ThemeData(textTheme: GoogleFonts.signikaTextTheme()),
       home: const UIPage(title: 'Well Done Page'),
     );
-  } 
+  }
 }
 
 class UIPage extends StatefulWidget {
@@ -32,11 +32,8 @@ class UIPage extends StatefulWidget {
 }
 
 class _UIPageState extends State<UIPage> {
-
   void _UIbutton() {
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   late ConfettiController _controller;
@@ -45,7 +42,7 @@ class _UIPageState extends State<UIPage> {
   void initState() {
     super.initState();
     _controller = ConfettiController(duration: Duration(seconds: 3));
-    _controller.play(); // starter automatisk
+    _controller.play();
   }
 
   @override
@@ -57,7 +54,7 @@ class _UIPageState extends State<UIPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // 👈 vigtigt
+      backgroundColor: Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(
@@ -69,74 +66,97 @@ class _UIPageState extends State<UIPage> {
             ],
           ),
         ),
-      child: Stack(
-        children: [
-          Align(
-            alignment:Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 80),
-              
-            child: Column(
-              children: const [
-                Text('WELL DONE!', style: TextStyle(fontSize: 40)),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 80),
+
+                child: Column(
+                  children: const [
+                    Text('WELL DONE!', style: TextStyle(fontSize: 40)),
+                  ],
+                ),
+              ),
+            ),
+
+            Align(
+              child: Column(
+                mainAxisAlignment: .center,
+                children: const [
+                  Text("ROUND 1:", style: TextStyle(fontSize: 25)),
+                  Text(" ", style: TextStyle(fontSize: 20)),
+                  Text("ROUND 2:", style: TextStyle(fontSize: 25)),
+                  Text(" ", style: TextStyle(fontSize: 20)),
+                  Text("ROUND 3:", style: TextStyle(fontSize: 25)),
+                  Text(" ", style: TextStyle(fontSize: 20)),
+                  Text("ROUND 4:", style: TextStyle(fontSize: 25)),
+                  Text(" ", style: TextStyle(fontSize: 20)),
+                  Text("ROUND 5:", style: TextStyle(fontSize: 25)),
                 ],
               ),
             ),
-          ),
-      
-          Align(
-            child: Column(
-              mainAxisAlignment: .center,
-              children: const [
-                Text("ROUND 1:", style: TextStyle(fontSize: 25)),
-                Text(" ", style: TextStyle(fontSize: 20)),
-                Text("ROUND 2:", style: TextStyle(fontSize: 25)),
-                Text(" ", style: TextStyle(fontSize: 20)),
-                Text("ROUND 3:", style: TextStyle(fontSize: 25)),
-                Text(" ", style: TextStyle(fontSize: 20)),
-                Text("ROUND 4:", style: TextStyle(fontSize: 25)),
-                Text(" ", style: TextStyle(fontSize: 20)),
-                Text("ROUND 5:", style: TextStyle(fontSize: 25)),
-              ],
-            ),
-          ),
-        
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(130),
-              child: LiquidGlassLayer(
-                settings: const LiquidGlassSettings(
-                  blur: 10,
-                  thickness: 20,
-                  glassColor: Color.fromARGB(255, 139, 207, 95), 
+
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(40),
+                child: IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {
+                    Share.share(
+                      'Share your score!',
+                      subject: 'AalborgGuessur',
+                    );
+                  },
                 ),
-                child: LiquidGlass(
-                  shape: LiquidRoundedSuperellipse(borderRadius: 30),
-                  child: SizedBox(
-                    width: 200,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: _UIbutton,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 110, 184, 58), 
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(130),
+                child: LiquidGlassLayer(
+                  settings: const LiquidGlassSettings(
+                    blur: 10,
+                    thickness: 20,
+                    glassColor: Color.fromARGB(255, 139, 207, 95),
+                  ),
+                  child: LiquidGlass(
+                    shape: LiquidRoundedSuperellipse(borderRadius: 30),
+                    child: SizedBox(
+                      width: 200,
+                      height: 60,
+                      child: ElevatedButton(
+                        onPressed: _UIbutton,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            110,
+                            184,
+                            58,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: const Text(
+                          "FINISH",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 23,
+                          ),
                         ),
                       ),
-                      child: const Text("FINISH", style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23
-                        ),
-                        ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Align(
+            Align(
               alignment: Alignment.topLeft,
               child: ConfettiWidget(
                 confettiController: _controller,
@@ -149,8 +169,8 @@ class _UIPageState extends State<UIPage> {
                 shouldLoop: false,
               ),
             ),
-            
-              Align(
+
+            Align(
               alignment: Alignment.topRight,
               child: ConfettiWidget(
                 confettiController: _controller,
@@ -165,7 +185,7 @@ class _UIPageState extends State<UIPage> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }
