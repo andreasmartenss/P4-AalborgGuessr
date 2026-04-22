@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pocketbase/pocketbase.dart';
 import '../ViewModel/gamePageVM.dart';
+import '../ViewModel/database.dart';
 
 void main() {
   runApp(const GamePage());
@@ -47,18 +49,13 @@ class _TheGamePageState extends State<TheGamePage> {
 
   void _showSkipExitDialog() {
     showDialog(
-      context: context, 
+      context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: Colors.white,
         title: Text(
           "Skip round or leave game?",
-          style: GoogleFonts.signika(
-            fontSize: 14,
-            color: Colors.grey,
-          ),
+          style: GoogleFonts.signika(fontSize: 14, color: Colors.grey),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -77,10 +74,7 @@ class _TheGamePageState extends State<TheGamePage> {
                 ),
                 child: Text(
                   'SKIP',
-                  style: GoogleFonts.signika(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
+                  style: GoogleFonts.signika(fontSize: 16, color: Colors.black),
                 ),
               ),
             ),
@@ -98,10 +92,7 @@ class _TheGamePageState extends State<TheGamePage> {
                 ),
                 child: Text(
                   'LEAVE',
-                  style: GoogleFonts.signika(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
+                  style: GoogleFonts.signika(fontSize: 16, color: Colors.black),
                 ),
               ),
             ),
@@ -114,14 +105,17 @@ class _TheGamePageState extends State<TheGamePage> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: _gamePageVM, 
+      listenable: _gamePageVM,
       builder: (context, child) {
         return Scaffold(
           backgroundColor: Colors.white,
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 40,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -157,9 +151,17 @@ class _TheGamePageState extends State<TheGamePage> {
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Center(
-                      child: Icon(Icons.image, size: 64, color: Colors.grey),
-                    ),
+                    child: GamePageVM().pictures == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : Image.network(
+                            pb.files
+                                .getUrl(
+                                  _gamePageVM.pictures!,
+                                  _gamePageVM.pictures!.data['photo'],
+                                )
+                                .toString(),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),
@@ -172,7 +174,11 @@ class _TheGamePageState extends State<TheGamePage> {
                       alignment: Alignment.centerLeft,
                       child: IconButton(
                         onPressed: _showSkipExitDialog,
-                        icon: const Icon(Icons.cancel_outlined, size: 36, color: Colors.black),
+                        icon: const Icon(
+                          Icons.cancel_outlined,
+                          size: 36,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -180,7 +186,12 @@ class _TheGamePageState extends State<TheGamePage> {
                       child: ElevatedButton(
                         onPressed: _gamePageVM.onGuess,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(216, 110, 183, 58),
+                          backgroundColor: const Color.fromARGB(
+                            216,
+                            110,
+                            183,
+                            58,
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: const StadiumBorder(),
                         ),
