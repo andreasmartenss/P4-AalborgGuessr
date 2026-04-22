@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_lambdas
-
 import "dart:async";
 import 'package:pocketbase/pocketbase.dart';
 
