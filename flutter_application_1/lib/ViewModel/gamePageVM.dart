@@ -1,4 +1,3 @@
-//import 'dart:js_interop';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -31,10 +30,16 @@ class GamePageVM extends ChangeNotifier {
   RecordModel? pictures;
 
   Future<void> getPicture() async {
-  final records = await pb.collection('photos_and_geopoint').getFullList();
-  records.shuffle();
-  pictures = records.first;
-  notifyListeners();
+  try {
+    final records = await pb.collection('photos_and_geopoint').getFullList();
+    records.shuffle();
+    pictures = records.first;
+    print('ID: ${pictures!.id}');
+    print('Data: ${pictures!.data}');
+    notifyListeners();
+  } catch (e) {
+    print('ERROR: $e');
+  }
 }
 
   void startRound() {

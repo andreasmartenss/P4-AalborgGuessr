@@ -146,21 +146,15 @@ class _TheGamePageState extends State<TheGamePage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: GamePageVM().pictures == null
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: _gamePageVM.pictures == null
                         ? const Center(child: CircularProgressIndicator())
                         : Image.network(
-                            pb.files
-                                .getUrl(
-                                  _gamePageVM.pictures!,
-                                  _gamePageVM.pictures!.data['photo'],
-                                )
-                                .toString(),
+                            'http://130.225.39.250/api/files/${_gamePageVM.pictures!.collectionId}/${_gamePageVM.pictures!.id}/${_gamePageVM.pictures!.data['photos']}?thumb=500x500',
                             fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
                           ),
                   ),
                 ),
