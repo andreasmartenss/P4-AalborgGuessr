@@ -1,5 +1,11 @@
+import 'dart:js_interop';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
+import 'database.dart';
 
 class GamePageVM extends ChangeNotifier {
   int score = 0;
@@ -22,10 +28,20 @@ class GamePageVM extends ChangeNotifier {
     });
   }
 
+  RecordModel? pictures;
+
+  Future<void> getPicture() async {
+  final records = await pb.collection('photos_and_geopoint').getFullList();
+  records.shuffle();
+  pictures = records.first;
+  notifyListeners();
+}
+
   void startRound() {
     timeUsage = 0;
     _timer?.cancel();
     startTimer();
+    getPicture();
     notifyListeners();
   }
 
