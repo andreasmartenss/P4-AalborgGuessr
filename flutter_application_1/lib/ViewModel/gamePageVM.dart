@@ -12,6 +12,9 @@ class GamePageVM extends ChangeNotifier {
   int currentRound = 1;
   int totalRounds = 5;
   int timeUsage = 0;
+  String? url = "";
+  final double latitude;
+  final double longitude;
 
   Timer? _timer;
 
