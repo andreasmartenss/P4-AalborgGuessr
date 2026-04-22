@@ -1,11 +1,17 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../ViewModel/database.dart';
 
 class GamePageVM extends ChangeNotifier {
   int score = 0;
   int currentRound = 1;
   int totalRounds = 5;
   int timeUsage = 0;
+  String? url = "";
+  final double latitude;
+  final double longitude;
 
   Timer? _timer;
 
@@ -20,6 +26,12 @@ class GamePageVM extends ChangeNotifier {
         timeUsage++;
         notifyListeners();
     });
+  }
+
+  Picture? _pictures;
+
+  void getPicture() {
+    _pictures = Picture.
   }
 
   void startRound() {

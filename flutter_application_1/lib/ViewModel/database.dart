@@ -7,8 +7,10 @@ Future<void> fetchData() async {
   final records = await pb.collection('photos_and_geopoint').getFullList();
   
   for (final record in records) {
-    print(record.id);
-    print(record.data); // all fields
+    final imageFile = record.data['photos'];
+    final imageUrl = 'http://130.225.39.250/api/files/${record.collectionId}/${record.id}/$imageFile?thumb=0x0';
+    print(imageUrl); // paste this URL in a browser to verify it loads
+    print(record.data);
   }
 }
 

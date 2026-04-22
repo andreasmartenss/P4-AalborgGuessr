@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../ViewModel/gamePageVM.dart';
+import '../ViewModel/database.dart'; 
 
 void main() {
   runApp(const GamePage());
