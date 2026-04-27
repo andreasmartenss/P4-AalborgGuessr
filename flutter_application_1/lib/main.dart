@@ -4,6 +4,7 @@ import 'package:provider/provider.dart'; // Importer Provider til state manageme
 import 'View/scorePage.dart'; // Importer ScorePageApp
 import 'ViewModel/gps_location_VM.dart'; // Importer GpsLocationVM
 import 'View/test_location_page.dart'; // Importer TestLocationPage
+import 'View/home_page.dart'; // Importer HomePageApp
 
 void main() {
   runApp(const GamePage());

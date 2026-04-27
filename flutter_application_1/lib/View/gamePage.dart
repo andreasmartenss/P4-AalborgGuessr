@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/home_page.dart';
+import 'package:flutter_application_1/View/scorePage.dart';
+import 'package:flutter_application_1/View/wellDonePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
 import '../ViewModel/gamePageVM.dart';
 import '../ViewModel/database.dart';
+import '../View/scorePage.dart';
 
 void main() {
   runApp(const GamePage());
@@ -36,9 +40,20 @@ class _TheGamePageState extends State<TheGamePage> {
   final GamePageVM _gamePageVM = GamePageVM();
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     _gamePageVM.startRound();
+    _gamePageVM.addListener(() {
+      if (_gamePageVM.navigateToScore) {
+        _gamePageVM.navigateToScore = false; 
+        Navigator.push( 
+      context,
+      MaterialPageRoute(
+        builder: (context) => ScorePageApp(gamePageVM: _gamePageVM), 
+      ),
+    );
+      };
+    });
   }
 
   @override
@@ -83,7 +98,10 @@ class _TheGamePageState extends State<TheGamePage> {
               child: ElevatedButton(
                 onPressed: () {
                   _gamePageVM.leaveGame();
-                  Navigator.pop(context);
+                  Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const HomePage()),
+                            );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,

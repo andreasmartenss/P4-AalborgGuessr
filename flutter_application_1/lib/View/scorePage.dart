@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/gamePage.dart';
+import '../ViewModel/gamePageVM.dart';
 
 class ScorePageApp extends StatelessWidget {
-  const ScorePageApp({super.key});
+  final GamePageVM gamePageVM;
+  const ScorePageApp({super.key, required this.gamePageVM});
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +15,14 @@ class ScorePageApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 255, 255, 255),
         ),
       ),
-      home: const ScorePage(title: 'Score Page'),
+      home: ScorePage(gamePageVM: gamePageVM, title: 'Score Page'),
     );
   }
 }
 
 class ScorePage extends StatefulWidget {
-  const ScorePage({super.key, required this.title});
+  final GamePageVM gamePageVM;
+  const ScorePage({super.key, required this.gamePageVM, required this.title});
 
   final String title;
 
@@ -32,6 +36,7 @@ class _ScorePageState extends State<ScorePage> {
   final int accuracyScore = 3123;
   final int timeScore = 1000;
   final String timeDisplay = '05:30';
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +170,8 @@ class _ScorePageState extends State<ScorePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // TODO: handle next
+                        widget.gamePageVM.nextRound();
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(216, 110, 183, 58),

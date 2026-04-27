@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_application_1/View/scorePage.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'database.dart';
@@ -30,38 +31,35 @@ class GamePageVM extends ChangeNotifier {
   RecordModel? pictures;
 
   Future<void> getPicture() async {
-  try {
-    final records = await pb.collection('photos_and_geopoint').getFullList();
-    records.shuffle();
-    pictures = records.first;
-    print('ID: ${pictures!.id}');
-    print('Data: ${pictures!.data}');
-    notifyListeners();
-  } catch (e) {
-    print('ERROR: $e');
-  }
+  final records = await pb.collection('photos_and_geopoint').getFullList();
+  records.shuffle();
+  pictures = records.first;
+  notifyListeners();
 }
 
-  void startRound() {
+  Future<void> startRound() async {
     timeUsage = 0;
     _timer?.cancel();
     startTimer();
-    getPicture();
+    await getPicture();
     notifyListeners();
   }
 
-  void nextRound() {
+  bool navigateToScore = false;
+
+  Future<void> nextRound() async {
     if (currentRound < totalRounds) {
       currentRound++;
       startRound();
     } else {
+      currentRound++;
       _timer?.cancel();
     }
     notifyListeners();
   }
 
-  void skipRound() {
-  nextRound();
+  Future<void> skipRound() async {
+    nextRound();
   }
 
   void leaveGame() {
@@ -70,7 +68,13 @@ class GamePageVM extends ChangeNotifier {
   }
 
   void onGuess() {
-    nextRound();// guess logic skal her
+    navigateToScore = true;
+    if (currentRound < totalRounds) {
+      currentRound++;
+    } else {
+      currentRound++;
+      _timer?.cancel();
+    }
     notifyListeners();
   }
 
