@@ -15,11 +15,7 @@ class WellDonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Well done page',
-      theme: ThemeData(textTheme: GoogleFonts.signikaTextTheme()),
-      home: const UIPage(title: 'Well Done Page'),
-    );
+    return const UIPage(title: 'Well Done Page');
   }
 }
 
@@ -131,7 +127,7 @@ class _UIPageState extends State<UIPage> {
                   child: LiquidGlass(
                     shape: LiquidRoundedSuperellipse(borderRadius: 30),
                     child: SizedBox(
-                      width: 200,
+                      width: 250,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: _UIbutton,

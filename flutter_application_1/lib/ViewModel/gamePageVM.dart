@@ -46,13 +46,16 @@ class GamePageVM extends ChangeNotifier {
   }
 
   bool navigateToScore = false;
+  bool navigateToWellDone = false;
 
   Future<void> nextRound() async {
     if (currentRound < totalRounds) {
+      currentRound++;
       await startRound();
     } else {
       currentRound++;
       _timer?.cancel();
+      navigateToWellDone = true;
     }
     notifyListeners();
   }
@@ -69,9 +72,7 @@ class GamePageVM extends ChangeNotifier {
   void onGuess() {
     navigateToScore = true;
     if (currentRound < totalRounds) {
-      currentRound++;
     } else {
-      currentRound++;
       _timer?.cancel();
     }
     notifyListeners();

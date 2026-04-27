@@ -162,9 +162,10 @@ class _ScorePageState extends State<ScorePage> {
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        Navigator.pop(context); 
+                        await Future.delayed(Duration.zero); 
                         widget.gamePageVM.nextRound();
-                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(216, 110, 183, 58),

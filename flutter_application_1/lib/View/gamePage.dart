@@ -45,14 +45,25 @@ class _TheGamePageState extends State<TheGamePage> {
     _gamePageVM.startRound();
     _gamePageVM.addListener(() {
       if (_gamePageVM.navigateToScore) {
-        _gamePageVM.navigateToScore = false; 
-        Navigator.push( 
-      context,
-      MaterialPageRoute(
-        builder: (context) => ScorePageApp(gamePageVM: _gamePageVM), 
-      ),
-    );
-      };
+        _gamePageVM.navigateToScore = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ScorePageApp(gamePageVM: _gamePageVM),
+            ),
+          );
+        });
+      }
+      if (_gamePageVM.navigateToWellDone) {
+        _gamePageVM.navigateToWellDone = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const WellDonePage()),
+          );
+        });
+      }
     });
   }
 
@@ -99,9 +110,9 @@ class _TheGamePageState extends State<TheGamePage> {
                 onPressed: () {
                   _gamePageVM.leaveGame();
                   Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const HomePage()),
-                            );
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
