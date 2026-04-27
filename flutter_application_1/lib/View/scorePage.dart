@@ -8,17 +8,11 @@ class ScorePageApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Score Page',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 255, 255, 255),
-        ),
-      ),
-      home: ScorePage(gamePageVM: gamePageVM, title: 'Score Page'),
-    );
+    // Fjern MaterialApp her - returner bare ScorePage direkte
+    return ScorePage(title: 'Score Page', gamePageVM: gamePageVM);
   }
 }
+
 
 class ScorePage extends StatefulWidget {
   final GamePageVM gamePageVM;

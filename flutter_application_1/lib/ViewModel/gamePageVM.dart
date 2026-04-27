@@ -49,7 +49,6 @@ class GamePageVM extends ChangeNotifier {
 
   Future<void> nextRound() async {
     if (currentRound < totalRounds) {
-      currentRound++;
       await startRound();
     } else {
       currentRound++;
