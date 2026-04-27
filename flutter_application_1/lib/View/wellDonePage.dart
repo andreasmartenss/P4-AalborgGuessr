@@ -127,7 +127,7 @@ class _UIPageState extends State<UIPage> {
                   child: LiquidGlass(
                     shape: LiquidRoundedSuperellipse(borderRadius: 30),
                     child: SizedBox(
-                      width: 250,
+                      width: 300,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: _UIbutton,
