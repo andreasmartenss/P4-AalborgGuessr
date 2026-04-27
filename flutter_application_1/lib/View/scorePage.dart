@@ -169,7 +169,6 @@ class _ScorePageState extends State<ScorePage> {
                     width: 120,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: handle next
                         widget.gamePageVM.nextRound();
                         Navigator.pop(context);
                       },

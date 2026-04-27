@@ -40,7 +40,7 @@ class _TheGamePageState extends State<TheGamePage> {
   final GamePageVM _gamePageVM = GamePageVM();
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     _gamePageVM.startRound();
     _gamePageVM.addListener(() {
