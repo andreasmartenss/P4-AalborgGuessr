@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/gamePage.dart';
 import '../ViewModel/gamePageVM.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class ScorePageApp extends StatelessWidget {
   final GamePageVM gamePageVM;
@@ -108,23 +109,32 @@ class _ScorePageState extends State<ScorePage> {
 
             // ── Map placeholder ────────────────────────────────────────
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: Container(
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Text(
-                      'Map Placeholder',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 0),
+    child: Container(
+      color: Colors.grey[300],
+      child: OSMFlutter(
+        controller: MapController(
+          initPosition: GeoPoint(
+            latitude: 57.0488,
+            longitude: 9.9217, // Aalborg
+          ),
+        ),
+        osmOption: OSMOption(
+          zoomOption: ZoomOption(
+            initZoom: 13,
+            minZoomLevel: 3,
+            maxZoomLevel: 19,
+          ),
+          userTrackingOption: UserTrackingOption(
+            enableTracking: false,
+            unFollowUser: false,
+          ),
+        ),
+      ),
+    ),
+  ),
+),
 
             const SizedBox(height: 16),
 
