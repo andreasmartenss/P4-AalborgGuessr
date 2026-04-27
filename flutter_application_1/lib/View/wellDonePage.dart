@@ -97,6 +97,8 @@ class _UIPageState extends State<UIPage> {
                   Text("ROUND 4:", style: TextStyle(fontSize: 25)),
                   Text(" ", style: TextStyle(fontSize: 20)),
                   Text("ROUND 5:", style: TextStyle(fontSize: 25)),
+                  Text(" ", style: TextStyle(fontSize: 20)),
+                  Text("24:22", style: TextStyle(fontSize: 40))
                 ],
               ),
             ),
@@ -117,7 +119,7 @@ class _UIPageState extends State<UIPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(130),
+                padding: const EdgeInsets.all(100),
                 child: LiquidGlassLayer(
                   settings: const LiquidGlassSettings(
                     blur: 10,
@@ -127,7 +129,7 @@ class _UIPageState extends State<UIPage> {
                   child: LiquidGlass(
                     shape: LiquidRoundedSuperellipse(borderRadius: 30),
                     child: SizedBox(
-                      width: 300,
+                      width: 150,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: _UIbutton,
