@@ -1,8 +1,7 @@
-import 'dart:ui';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/View/scorePage.dart';
+import 'package:flutter_application_1/Model/scorepage_model.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'database.dart';
@@ -13,6 +12,11 @@ class GamePageVM extends ChangeNotifier {
   int currentRound = 1;
   int totalRounds = 5;
   int timeUsage = 0;
+
+  double? distanceInMeters;
+  final List<int> _roundScores = [];
+  List<int> get roundScores => _roundScores;
+  final ScorepageModel _scorepageModel = ScorepageModel();
 
   Timer? _timer;
 
@@ -32,12 +36,12 @@ class GamePageVM extends ChangeNotifier {
   RecordModel? pictures;
 
   GeoPoint? get location {
-  final raw = pictures?.data['location'];
-  if (raw == null) return null;
-  final lat = double.parse(raw['lat'].toString());
-  final lon = double.parse(raw['lon'].toString());
-  return GeoPoint(latitude: lat, longitude: lon);
-}
+    final raw = pictures?.data['location'];
+    if (raw == null) return null;
+    final lat = double.parse(raw['lat'].toString());
+    final lon = double.parse(raw['lon'].toString());
+    return GeoPoint(latitude: lat, longitude: lon);
+  }
 
   Future<void> getPicture() async {
     final result = await pb
@@ -49,6 +53,7 @@ class GamePageVM extends ChangeNotifier {
 
   Future<void> startRound() async {
     timeUsage = 0;
+    distanceInMeters = null;
     _timer?.cancel();
     startTimer();
     await getPicture();
@@ -58,6 +63,46 @@ class GamePageVM extends ChangeNotifier {
   bool navigateToScore = false;
   bool navigateToWellDone = false;
 
+  void setGuessLocation(GeoPoint guessedPoint) {
+    final correct = location;
+    if (correct == null) return;
+
+    const double earthRadius = 6371000;
+    final double lat1 = correct.latitude * (pi / 180);
+    final double lat2 = guessedPoint.latitude * (pi / 180);
+    final double dLat = (guessedPoint.latitude - correct.latitude) * (pi / 180);
+    final double dLon = (guessedPoint.longitude - correct.longitude) * (pi / 180);
+
+    final double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    distanceInMeters = earthRadius * c;
+    notifyListeners();
+  }
+
+  void addRoundScore() {
+    final distance = distanceInMeters ?? 9999.0;
+    final roundScore = _scorepageModel.calculatePoints(distance, timeUsage);
+    score += roundScore;
+    _roundScores.add(roundScore);
+    notifyListeners();
+  }
+
+  Future<void> saveAllScores() async {
+    if (_roundScores.length < 5) return;
+
+    await _scorepageModel.saveGameScore(
+      round1: _roundScores[0],
+      round2: _roundScores[1],
+      round3: _roundScores[2],
+      round4: _roundScores[3],
+      round5: _roundScores[4],
+    );
+
+    _roundScores.clear();
+  }
+
   Future<void> nextRound() async {
     if (currentRound < totalRounds) {
       currentRound++;
@@ -65,6 +110,7 @@ class GamePageVM extends ChangeNotifier {
     } else {
       currentRound++;
       _timer?.cancel();
+      await saveAllScores();
       navigateToWellDone = true;
     }
     notifyListeners();
@@ -80,9 +126,9 @@ class GamePageVM extends ChangeNotifier {
   }
 
   void onGuess() {
+    addRoundScore();
     navigateToScore = true;
-    if (currentRound < totalRounds) {
-    } else {
+    if (currentRound >= totalRounds) {
       _timer?.cancel();
     }
     notifyListeners();

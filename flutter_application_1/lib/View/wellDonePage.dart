@@ -5,30 +5,47 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:share_plus/share_plus.dart';
+import '../Model/scorepage_model.dart';
+import '../ViewModel/gamePageVM.dart';
+import '../View/scorePage.dart';
 
 void main() {
-  runApp(const WellDonePage());
+  runApp(const WellDonePage(roundScores: []));
 }
 
 class WellDonePage extends StatelessWidget {
-  const WellDonePage({super.key});
+  final List<int> roundScores;
+
+  const WellDonePage({super.key, required this.roundScores});
 
   @override
   Widget build(BuildContext context) {
-    return const UIPage(title: 'Well Done Page');
+    return UIPage(title: 'Well Done Page', roundScores: roundScores);
   }
 }
 
 class UIPage extends StatefulWidget {
-  const UIPage({super.key, required this.title});
+  const UIPage({super.key, required this.title, required this.roundScores});
 
   final String title;
+  final List<int> roundScores;
 
   @override
   State<UIPage> createState() => _UIPageState();
 }
 
 class _UIPageState extends State<UIPage> {
+  Widget _buildRound(String title, int index) {
+    if (widget.roundScores.length <= index) {
+      return Text("$title: 0", style: const TextStyle(fontSize: 25));
+    }
+
+    return Text(
+      "$title: ${widget.roundScores[index]}",
+      style: const TextStyle(fontSize: 25),
+    );
+  }
+
   void _UIbutton() {
     setState(() {
       Navigator.pushAndRemoveUntil(
@@ -86,19 +103,29 @@ class _UIPageState extends State<UIPage> {
 
             Align(
               child: Column(
-                mainAxisAlignment: .center,
-                children: const [
-                  Text("ROUND 1:", style: TextStyle(fontSize: 25)),
-                  Text(" ", style: TextStyle(fontSize: 20)),
-                  Text("ROUND 2:", style: TextStyle(fontSize: 25)),
-                  Text(" ", style: TextStyle(fontSize: 20)),
-                  Text("ROUND 3:", style: TextStyle(fontSize: 25)),
-                  Text(" ", style: TextStyle(fontSize: 20)),
-                  Text("ROUND 4:", style: TextStyle(fontSize: 25)),
-                  Text(" ", style: TextStyle(fontSize: 20)),
-                  Text("ROUND 5:", style: TextStyle(fontSize: 25)),
-                  Text(" ", style: TextStyle(fontSize: 20)),
-                  Text("24:22", style: TextStyle(fontSize: 40))
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildRound("ROUND 1", 0),
+                  const SizedBox(height: 10),
+
+                  _buildRound("ROUND 2", 1),
+                  const SizedBox(height: 10),
+
+                  _buildRound("ROUND 3", 2),
+                  const SizedBox(height: 10),
+
+                  _buildRound("ROUND 4", 3),
+                  const SizedBox(height: 10),
+
+                  _buildRound("ROUND 5", 4),
+                  const SizedBox(height: 20),
+
+                  Text(
+                    widget.roundScores
+                        .fold(0, (sum, item) => sum + item)
+                        .toString(),
+                    style: const TextStyle(fontSize: 40),
+                  ),
                 ],
               ),
             ),

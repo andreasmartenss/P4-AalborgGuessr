@@ -60,7 +60,10 @@ class _TheGamePageState extends State<TheGamePage> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const WellDonePage()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  WellDonePage(roundScores: _gamePageVM.roundScores),
+            ),
           );
         });
       }

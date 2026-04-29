@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/gamePage.dart';
+import 'package:flutter_application_1/Model/scorepage_model.dart';
 import '../ViewModel/gamePageVM.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
@@ -24,13 +24,39 @@ class ScorePage extends StatefulWidget {
 }
 
 class _ScorePageState extends State<ScorePage> {
-  // Example values – replace with real data later
-  final int totalScore = 4123;
-  final int accuracyScore = 3123;
-  final int timeScore = 1000;
-  final String timeDisplay = '05:30';
+  late int totalScore;
+  late int accuracyScore;
+  late int timeScore;
+  late String timeDisplay;
 
   late MapController mapController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
+    final time = widget.gamePageVM.timeUsage;
+    final model = ScorepageModel();
+
+    totalScore = model.calculatePoints(distance, time);
+    accuracyScore = model.calculatePoints(distance, 0);
+    timeScore = totalScore - accuracyScore;
+
+    final minutes = (time ~/ 60).toString().padLeft(2, '0');
+    final seconds = (time % 60).toString().padLeft(2, '0');
+    timeDisplay = '$minutes:$seconds';
+
+    mapController = MapController.withPosition(
+      initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      print('current position: ${await mapController.myLocation()}');
+      await _addMarker();
+    });
+  }
 
   Future<void> _addMarker() async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -39,7 +65,6 @@ class _ScorePageState extends State<ScorePage> {
         widget.gamePageVM.location ??
         GeoPoint(latitude: 57.0488, longitude: 9.9217);
 
-    // Tilføj markør på billedets lokation
     await mapController.addMarker(
       pictureLocation,
       markerIcon: MarkerIcon(
@@ -51,7 +76,6 @@ class _ScorePageState extends State<ScorePage> {
       ),
     );
 
-    // Hent brugerens position og tegn linje
     try {
       final userLocation = await mapController.myLocation();
       await mapController.drawRoadManually([
@@ -71,21 +95,6 @@ class _ScorePageState extends State<ScorePage> {
     } catch (e) {
       print('Kunne ikke tegne linje: $e');
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    mapController = MapController.withPosition(
-      initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      print('current position: ${await mapController.myLocation()}');
-      await _addMarker();
-    });
   }
 
   @override
@@ -125,7 +134,6 @@ class _ScorePageState extends State<ScorePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Accuracy
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -142,7 +150,6 @@ class _ScorePageState extends State<ScorePage> {
                       ),
                     ],
                   ),
-                  // Time
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -162,24 +169,21 @@ class _ScorePageState extends State<ScorePage> {
 
             const SizedBox(height: 12),
 
-            // ── Map placeholder ────────────────────────────────────────
+            // ── Map ────────────────────────────────────────────────────
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: Container(
-                  color: Colors.grey[300],
-                  child: OSMFlutter(
-                    controller: mapController, // <-- vigtig ændring
-                    osmOption: OSMOption(
-                      zoomOption: ZoomOption(
-                        initZoom: 13,
-                        minZoomLevel: 3,
-                        maxZoomLevel: 19,
-                      ),
-                      userTrackingOption: UserTrackingOption(
-                        enableTracking: true,
-                        unFollowUser: true,
-                      ),
+              child: Container(
+                color: Colors.grey[300],
+                child: OSMFlutter(
+                  controller: mapController,
+                  osmOption: OSMOption(
+                    zoomOption: ZoomOption(
+                      initZoom: 13,
+                      minZoomLevel: 3,
+                      maxZoomLevel: 19,
+                    ),
+                    userTrackingOption: UserTrackingOption(
+                      enableTracking: true,
+                      unFollowUser: true,
                     ),
                   ),
                 ),
@@ -197,7 +201,6 @@ class _ScorePageState extends State<ScorePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Close / cancel button
                   GestureDetector(
                     onTap: () {
                       // TODO: handle close
@@ -218,7 +221,6 @@ class _ScorePageState extends State<ScorePage> {
 
                   const Spacer(),
 
-                  // NEXT button
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
@@ -253,9 +255,7 @@ class _ScorePageState extends State<ScorePage> {
                   ),
 
                   const Spacer(),
-                  const SizedBox(
-                    width: 52,
-                  ), // Sized box som fylder lige så meget som close knappen, for at holde NEXT centreret
+                  const SizedBox(width: 52),
                 ],
               ),
             ),
