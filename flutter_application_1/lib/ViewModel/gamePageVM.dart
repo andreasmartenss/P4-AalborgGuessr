@@ -6,6 +6,7 @@ import 'package:flutter_application_1/View/scorePage.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'database.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class GamePageVM extends ChangeNotifier {
   int score = 0;
@@ -23,19 +24,28 @@ class GamePageVM extends ChangeNotifier {
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        timeUsage++;
-        notifyListeners();
+      timeUsage++;
+      notifyListeners();
     });
   }
 
   RecordModel? pictures;
 
-  Future<void> getPicture() async {
-  final records = await pb.collection('photos_and_geopoint').getFullList();
-  records.shuffle();
-  pictures = records.first;
-  notifyListeners();
+  GeoPoint? get location {
+  final raw = pictures?.data['location'];
+  if (raw == null) return null;
+  final lat = double.parse(raw['lat'].toString());
+  final lon = double.parse(raw['lon'].toString());
+  return GeoPoint(latitude: lat, longitude: lon);
 }
+
+  Future<void> getPicture() async {
+    final result = await pb
+        .collection('photos_and_geopoint')
+        .getList(page: 1, perPage: 1, sort: '@random');
+    pictures = result.items.first;
+    notifyListeners();
+  }
 
   Future<void> startRound() async {
     timeUsage = 0;
