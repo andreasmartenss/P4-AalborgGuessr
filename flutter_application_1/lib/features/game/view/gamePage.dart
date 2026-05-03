@@ -4,9 +4,9 @@ import 'package:flutter_application_1/View/scorePage.dart';
 import 'package:flutter_application_1/View/wellDonePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
-import '../ViewModel/gamePageVM.dart';
-import '../ViewModel/database.dart';
-import '../View/scorePage.dart';
+import '../viewmodel/gamePageVM.dart';
+import '../../../ViewModel/database.dart';
+import 'scorePage.dart';
 
 void main() {
   runApp(const GamePage());

@@ -4,7 +4,7 @@ import 'package:flutter_application_1/View/scorePage.dart';
 import 'package:flutter_application_1/Model/scorepage_model.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
-import 'database.dart';
+import '../../../ViewModel/database.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class GamePageVM extends ChangeNotifier {

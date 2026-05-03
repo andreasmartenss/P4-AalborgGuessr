@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../ViewModel/gps_location_VM.dart';
+import '../../game/viewmodel/gps_location_VM.dart';
 
 class TestLocationPage extends StatelessWidget {
   const TestLocationPage({super.key});

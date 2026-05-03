@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:share_plus/share_plus.dart';
-import '../Model/scorepage_model.dart';
-import '../ViewModel/gamePageVM.dart';
-import '../View/scorePage.dart';
+import '../../score/model/scorepage_model.dart';
+import '../viewmodel/gamePageVM.dart';
+import 'scorePage.dart';
 
 void main() {
   runApp(const WellDonePage(roundScores: []));
