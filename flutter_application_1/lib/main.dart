@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart'; // Importer Flutter material design pakke
 import 'package:flutter_application_1/features/game/view/game_page.dart';
 import 'package:provider/provider.dart'; // Importer Provider til state management
-import 'features/game/view/score_page.dart'; // Importer ScorePageApp
+import 'package:flutter_application_1/features/score/view/score_page.dart';// Importer ScorePageApp
 import 'features/game/viewmodel/gps_location_vm.dart'; // Importer GpsLocationVM
-import 'features/location/viewmodel/test_location_page.dart'; // Importer TestLocationPage
+import 'features/location/view/test_location_page.dart'; // Importer TestLocationPage
 import 'features/home/view/home_page.dart'; // Importer HomePageApp
 
 void main() {
