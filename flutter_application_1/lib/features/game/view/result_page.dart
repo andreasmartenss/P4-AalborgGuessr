@@ -7,7 +7,7 @@ import 'dart:math';
 import 'package:share_plus/share_plus.dart';
 import '../../score/model/scorepage_model.dart';
 import '../viewmodel/game_page_vm.dart';
-import 'score_page.dart';
+import 'package:flutter_application_1/features/score/view/score_page.dart';
 
 void main() {
   runApp(const WellDonePage(roundScores: []));

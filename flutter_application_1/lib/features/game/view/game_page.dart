@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/game/view/score_page.dart';
+import 'package:flutter_application_1/features/score/view/score_page.dart';
 import 'package:flutter_application_1/features/game/view/result_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
