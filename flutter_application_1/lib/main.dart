@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; // Importer Flutter material design pakke
-import 'package:flutter_application_1/View/gamePage.dart';
+import 'package:flutter_application_1/features/game/view/gamePage.dart';
 import 'package:provider/provider.dart'; // Importer Provider til state management
 import 'features/game/view/scorePage.dart'; // Importer ScorePageApp
 import 'features/game/viewmodel/gps_location_VM.dart'; // Importer GpsLocationVM

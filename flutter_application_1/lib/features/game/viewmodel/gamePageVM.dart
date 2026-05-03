@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/services/database.dart';
 import 'package:flutter_application_1/features/game/view/scorePage.dart';
 import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
-import 'package:flutter_application_1/core/services/database.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -45,7 +44,7 @@ class GamePageVM extends ChangeNotifier {
   }
 
   Future<void> getPicture() async {
-    final result = await pb
+    final result = await PocketBaseService.pb
         .collection('photos_and_geopoint')
         .getList(page: 1, perPage: 1, sort: '@random');
     pictures = result.items.first;

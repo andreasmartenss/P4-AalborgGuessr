@@ -3,6 +3,9 @@ import 'package:pocketbase/pocketbase.dart';
 import 'package:flutter_application_1/core/services/database.dart';
 
 class ScorepageModel {
+
+  final pb = PocketBaseService.pb;
+
   int calculatePoints(double distanceInMeters, int timeInSeconds) {
     const int maxPoints = 5000;
 
@@ -26,7 +29,7 @@ class ScorepageModel {
     final int totalScore = round1 + round2 + round3 + round4 + round5;
 
     try {
-      await pb.collection('users').create(body: {
+     await pb.collection('users').create(body: {
         'round_1': round1,
         'round_2': round2,
         'round_3': round3,
