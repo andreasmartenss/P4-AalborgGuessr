@@ -1,7 +1,12 @@
 import "dart:async";
 import 'package:pocketbase/pocketbase.dart';
 
-final pb = PocketBase('http://130.225.39.250');
+
+class PocketBaseService {
+  static final PocketBase pb = PocketBase(
+    'http://130.225.39.250',
+  );
+
 
 Future<void> fetchData() async {
   final records = await pb.collection('photos_and_geopoint').getFullList();
@@ -16,4 +21,5 @@ Future<void> fetchData() async {
 
 void main() {
   fetchData();
+  }
 }
