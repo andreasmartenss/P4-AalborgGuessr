@@ -1,6 +1,6 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:pocketbase/pocketbase.dart';
-import '../../../ViewModel/database.dart';
+import 'package:flutter_application_1/core/services/database.dart';
 
 class ScorepageModel {
   int calculatePoints(double distanceInMeters, int timeInSeconds) {

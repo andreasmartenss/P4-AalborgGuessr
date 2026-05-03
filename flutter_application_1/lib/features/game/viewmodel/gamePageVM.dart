@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/scorePage.dart';
-import 'package:flutter_application_1/Model/scorepage_model.dart';
+import 'package:flutter_application_1/core/services/database.dart';
+import 'package:flutter_application_1/features/game/view/scorePage.dart';
+import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
+import 'package:flutter_application_1/core/services/database.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
-import '../../../ViewModel/database.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class GamePageVM extends ChangeNotifier {

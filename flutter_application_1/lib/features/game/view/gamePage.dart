@@ -5,7 +5,8 @@ import 'package:flutter_application_1/View/wellDonePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
 import '../viewmodel/gamePageVM.dart';
-import '../../../ViewModel/database.dart';
+import 'package:flutter_application_1/core/services/database.dart';
+
 import 'scorePage.dart';
 
 void main() {
