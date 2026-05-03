@@ -1,6 +1,6 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:flutter_application_1/core/services/database.dart';
+import 'package:flutter_application_1/core/services/pocketbase_service.dart';
 
 class ScorepageModel {
 

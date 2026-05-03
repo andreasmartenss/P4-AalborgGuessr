@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/game/view/scorePage.dart';
-import 'package:flutter_application_1/features/game/view/wellDonePage.dart';
+import 'package:flutter_application_1/features/game/view/score_page.dart';
+import 'package:flutter_application_1/features/game/view/result_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
-import '../viewmodel/gamePageVM.dart';
-import 'package:flutter_application_1/core/services/database.dart';
+import '../viewmodel/game_page_vm.dart';
+import 'package:flutter_application_1/core/services/pocketbase_service.dart';
 
 void main() {
   runApp(const GamePage());

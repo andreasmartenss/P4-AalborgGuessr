@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/services/database.dart';
-import 'package:flutter_application_1/features/game/view/scorePage.dart';
+import 'package:flutter_application_1/core/services/pocketbase_service.dart';
+import 'package:flutter_application_1/features/game/view/score_page.dart';
 import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';

@@ -6,8 +6,8 @@ import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:share_plus/share_plus.dart';
 import '../../score/model/scorepage_model.dart';
-import '../viewmodel/gamePageVM.dart';
-import 'scorePage.dart';
+import '../viewmodel/game_page_vm.dart';
+import 'score_page.dart';
 
 void main() {
   runApp(const WellDonePage(roundScores: []));

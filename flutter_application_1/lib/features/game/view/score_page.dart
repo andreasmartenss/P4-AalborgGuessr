@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
-import '../model/gamepage_Model.dart';
-import '../viewmodel/gamePageVM.dart';
+import '../model/gamepage_model.dart';
+import '../viewmodel/game_page_vm.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class ScorePageApp extends StatelessWidget {

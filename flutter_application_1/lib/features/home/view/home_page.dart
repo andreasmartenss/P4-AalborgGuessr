@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
-import '../../game/view/gamePage.dart';
+import '../../game/view/game_page.dart';
 
 void main() {
   runApp(const MyApp());
