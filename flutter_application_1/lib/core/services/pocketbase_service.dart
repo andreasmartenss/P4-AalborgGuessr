@@ -18,6 +18,17 @@ class PocketBaseService {
       print(record.data);
     }
   }
+  Future<int> getLatestTotalScore() async {
+  final records = await pb.collection('users')
+      .getList(sort: '-created', perPage: 1);
+  
+  if (records.items.isNotEmpty) {
+    return records.items.first.data['TotalScore'] ?? 0;
+  }
+  return 0;
+}
+
+ 
 
   void main() {
     fetchData();

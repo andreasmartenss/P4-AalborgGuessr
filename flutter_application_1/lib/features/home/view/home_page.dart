@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import '../../game/view/game_page.dart';
+import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
+import 'package:flutter_application_1/features/home/viewmodel/home_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +112,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Text(
+                             Text(
                           '4821',
                           style: GoogleFonts.signika(
                             fontSize: 28,
