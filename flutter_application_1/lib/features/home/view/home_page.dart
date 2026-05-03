@@ -110,18 +110,18 @@ class HomePage extends StatelessWidget {
                         Text(
                           'HIGHSCORE',
                           style: GoogleFonts.signika(
-                            fontSize: 18,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
                             color: Colors.black87,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                             Consumer<HomeViewModel>(
                             builder: (context, vm, child) {
-                                 return Text('Din score: ${vm.totalScore}',
+                                 return Text('${vm.totalScore}',
                                  style: GoogleFonts.signika(
-                                  fontSize: 28,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                  ));
                           },
@@ -130,7 +130,7 @@ class HomePage extends StatelessWidget {
                     ),
                     Image.asset(
                       'assets/StarsSparkle.gif',
-                      width: 120,
+                      width: 140,
                       height: 120,
                     ),
                   ],
