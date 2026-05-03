@@ -5,11 +5,16 @@ import '../../game/view/game_page.dart';
 import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
 import 'package:flutter_application_1/features/home/viewmodel/home_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/core/services/pocketbase_service.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HomeViewModel(PocketBaseService()),
+      child: const MyApp(),
+    ),
+  );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -112,14 +117,15 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                             Text(
-                          '4821',
-                          style: GoogleFonts.signika(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xDD000000),
+                            Consumer<HomeViewModel>(
+                            builder: (context, vm, child) {
+                                 return Text('Din score: ${vm.totalScore}',
+                                 style: GoogleFonts.signika(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                 ));
+                          },
                           ),
-                        ),
                       ],
                     ),
                     Image.asset(
