@@ -4,6 +4,9 @@ import 'package:flutter_application_1/features/game/model/gamepage_model.dart';
 import 'package:flutter_application_1/features/game/viewmodel/game_page_vm.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_application_1/features/location/viewmodel/OSM_location_vm.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/features/game/view/game_page.dart';
+import 'package:flutter_application_1/features/home/view/home_page.dart';
 
 class ScorePageApp extends StatelessWidget {
   final GamePageVM gamePageVM;
@@ -26,6 +29,7 @@ class ScorePage extends StatefulWidget {
 }
 
 class _ScorePageState extends State<ScorePage> {
+    final GamePageVM _gamePageVM = GamePageVM();
   late int totalScore;
   late int accuracyScore;
   late int timeScore;
@@ -60,6 +64,46 @@ void initState() {
   });
 }
   
+  void _showSkipExitDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: Text(
+          "Leave game?",
+          style: GoogleFonts.signika(fontSize: 14, color: Colors.grey),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  _gamePageVM.leaveGame();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+                child: Text(
+                  'LEAVE',
+                  style: GoogleFonts.signika(fontSize: 16, color: Colors.black),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,30 +201,21 @@ void initState() {
 
             // ── Bottom buttons ─────────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 16.0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // TODO: handle close
-                    },
-                    child: Container(
-                      width: 52,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey.shade400,
-                          width: 2,
+                padding: const EdgeInsets.all(16),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: _showSkipExitDialog,
+                        icon: const Icon(
+                          Icons.cancel_outlined,
+                          size: 36,
+                          color: Colors.black,
                         ),
                       ),
-                      child: const Icon(Icons.close, size: 26),
                     ),
-                  ),
 
                   const Spacer(),
 
