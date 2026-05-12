@@ -182,7 +182,7 @@ class _TheGamePageState extends State<TheGamePage> {
                     child: _gamePageVM.pictures == null
                         ? const Center(child: CircularProgressIndicator())
                         : Image.network(
-                            'http://130.225.39.250/api/files/${_gamePageVM.pictures!.collectionId}/${_gamePageVM.pictures!.id}/${_gamePageVM.pictures!.data['photos']}?thumb=500x500',
+                            'http://130.225.39.250:8090/api/files/${_gamePageVM.pictures!.collectionId}/${_gamePageVM.pictures!.id}/${_gamePageVM.pictures!.data['photos']}?thumb=500x500',
                             fit: BoxFit.cover,
                             width: double.infinity,
                             height: double.infinity,
