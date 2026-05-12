@@ -3,6 +3,7 @@ import 'package:flutter_application_1/features/score/model/scorepage_model.dart'
 import 'package:flutter_application_1/features/game/model/gamepage_model.dart';
 import 'package:flutter_application_1/features/game/viewmodel/game_page_vm.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:flutter_application_1/features/location/viewmodel/OSM_location_vm.dart';
 
 class ScorePageApp extends StatelessWidget {
   final GamePageVM gamePageVM;
@@ -30,74 +31,35 @@ class _ScorePageState extends State<ScorePage> {
   late int timeScore;
   late String timeDisplay;
 
-  late MapController mapController;
 
-  @override
-  void initState() {
-    super.initState();
+  final osmVm = OsmLocationVm();
 
-    final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
-    final time = widget.gamePageVM.timeUsage;
-    final model = ScorepageModel();
+@override
+void initState() {
+  super.initState();
 
-    totalScore = model.calculatePoints(distance, time);
-    accuracyScore = model.calculatePoints(distance, 0);
-    timeScore = totalScore - accuracyScore;
+  final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
+  final time = widget.gamePageVM.timeUsage;
+  final model = ScorepageModel();
 
-    final minutes = (time ~/ 60).toString().padLeft(2, '0');
-    final seconds = (time % 60).toString().padLeft(2, '0');
-    timeDisplay = '$minutes:$seconds';
+  totalScore = model.calculatePoints(distance, time);
+  accuracyScore = model.calculatePoints(distance, 0);
+  timeScore = totalScore - accuracyScore;
 
-    mapController = MapController.withPosition(
-      initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
-    );
+  final minutes = (time ~/ 60).toString().padLeft(2, '0');
+  final seconds = (time % 60).toString().padLeft(2, '0');
+  timeDisplay = '$minutes:$seconds';
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      print('current position: ${await mapController.myLocation()}');
-      await _addMarker();
-    });
-  }
+  osmVm.mapController = MapController.withPosition(
+    initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
+  );
 
-  Future<void> _addMarker() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    final pictureLocation =
-        widget.gamePageVM.location ??
-        GeoPoint(latitude: 57.0488, longitude: 9.9217);
-
-    await mapController.addMarker(
-      pictureLocation,
-      markerIcon: MarkerIcon(
-        icon: Icon(
-          Icons.flag,
-          size: 80,
-          color: const Color.fromARGB(255, 199, 1, 1),
-        ),
-      ),
-    );
-
-    try {
-      final userLocation = await mapController.myLocation();
-      await mapController.drawRoadManually([
-        userLocation,
-        pictureLocation,
-      ], RoadOption(roadColor: Colors.black, roadWidth: 5, zoomInto: true));
-      await mapController.addMarker(
-        userLocation,
-        markerIcon: MarkerIcon(
-          icon: Icon(
-            Icons.place,
-            size: 80,
-            color: const Color.fromARGB(255, 199, 1, 1),
-          ),
-        ),
-      );
-    } catch (e) {
-      print('Kunne ikke tegne linje: $e');
-    }
-  }
-
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    await osmVm.addMarker(widget.gamePageVM);
+  });
+}
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +137,7 @@ class _ScorePageState extends State<ScorePage> {
               child: Container(
                 color: Colors.grey[300],
                 child: OSMFlutter(
-                  controller: mapController,
+                  controller: osmVm.mapController,
                   osmOption: OSMOption(
                     zoomOption: ZoomOption(
                       initZoom: 13,
@@ -183,7 +145,7 @@ class _ScorePageState extends State<ScorePage> {
                       maxZoomLevel: 19,
                     ),
                     userTrackingOption: UserTrackingOption(
-                      enableTracking: true,
+                      enableTracking: false,
                       unFollowUser: true,
                     ),
                   ),

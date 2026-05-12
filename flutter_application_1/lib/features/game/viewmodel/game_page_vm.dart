@@ -13,6 +13,8 @@ class GamePageVM extends ChangeNotifier {
   int totalRounds = 5;
   int timeUsage = 0;
 
+  final List<String> _usedPictureIds = [];
+
   double? distanceInMeters;
   final List<int> _roundScores = [];
   List<int> get roundScores => _roundScores;
@@ -44,21 +46,47 @@ class GamePageVM extends ChangeNotifier {
   }
 
   Future<void> getPicture() async {
+  final countResult = await PocketBaseService.pb
+      .collection('photos_and_geopoint')
+      .getList(page: 1, perPage: 1);
+
+  final totalItems = countResult.totalItems;
+
+  RecordModel? selected;
+
+if (_usedPictureIds.length >= totalItems) {
+  _usedPictureIds.clear(); // reset if we've exhausted all pictures
+}
+  do {
+    final randomPage = Random().nextInt(totalItems) + 1;
+
     final result = await PocketBaseService.pb
         .collection('photos_and_geopoint')
-        .getList(page: 1, perPage: 1, sort: '@random');
-    pictures = result.items.first;
-    notifyListeners();
-  }
+        .getList(page: randomPage, perPage: 1);
+
+    final candidate = result.items.first;
+
+    if (!_usedPictureIds.contains(candidate.id)) {
+      selected = candidate;
+    }
+  } while (selected == null);
+
+  _usedPictureIds.add(selected.id);
+  pictures = selected;
+  notifyListeners();
+}
 
   Future<void> startRound() async {
-    timeUsage = 0;
-    distanceInMeters = null;
-    _timer?.cancel();
-    startTimer();
-    await getPicture();
-    notifyListeners();
+  if (currentRound == 1) {
+    _usedPictureIds.clear();
   }
+  timeUsage = 0;
+  distanceInMeters = null;
+  _timer?.cancel();
+  startTimer();
+  await getPicture();
+  notifyListeners();
+}
 
   bool navigateToScore = false;
   bool navigateToWellDone = false;
