@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pocketbase/pocketbase.dart';
 import '../viewmodel/game_page_vm.dart';
 import 'package:flutter_application_1/core/services/pocketbase_service.dart';
+import 'package:flutter_application_1/features/game/model/game_geo_model.dart';
+import 'package:flutter_application_1/features/game/model/game_photo_selecter.dart';
 
 void main() {
   runApp(const GamePage());

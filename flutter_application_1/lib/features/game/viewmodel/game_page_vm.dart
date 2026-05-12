@@ -1,24 +1,26 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/services/pocketbase_service.dart';
-import 'package:flutter_application_1/features/score/view/score_page.dart';
 import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
+import 'package:flutter_application_1/features/game/model/game_geo_model.dart';
+import 'package:flutter_application_1/features/game/model/game_photo_selecter.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class GamePageVM extends ChangeNotifier {
+  final GeoModel _geoModel = GeoModel();
+  final PhotoPickerModel _photoModel = PhotoPickerModel();
+  final ScorepageModel _scorepageModel = ScorepageModel();
+
   int score = 0;
   int currentRound = 1;
   int totalRounds = 5;
   int timeUsage = 0;
-
-  final List<String> _usedPictureIds = [];
+  bool navigateToScore = false;
+  bool navigateToWellDone = false;
 
   double? distanceInMeters;
   final List<int> _roundScores = [];
   List<int> get roundScores => _roundScores;
-  final ScorepageModel _scorepageModel = ScorepageModel();
 
   Timer? _timer;
 
@@ -45,70 +47,33 @@ class GamePageVM extends ChangeNotifier {
     return GeoPoint(latitude: lat, longitude: lon);
   }
 
+  // NOW uses PhotoPickerModel instead of inline logic
   Future<void> getPicture() async {
-  final countResult = await PocketBaseService.pb
-      .collection('photos_and_geopoint')
-      .getList(page: 1, perPage: 1);
-
-  final totalItems = countResult.totalItems;
-
-  RecordModel? selected;
-
-if (_usedPictureIds.length >= totalItems) {
-  _usedPictureIds.clear(); // reset if we've exhausted all pictures
-}
-  do {
-    final randomPage = Random().nextInt(totalItems) + 1;
-
-    final result = await PocketBaseService.pb
-        .collection('photos_and_geopoint')
-        .getList(page: randomPage, perPage: 1);
-
-    final candidate = result.items.first;
-
-    if (!_usedPictureIds.contains(candidate.id)) {
-      selected = candidate;
-    }
-  } while (selected == null);
-
-  _usedPictureIds.add(selected.id);
-  pictures = selected;
-  notifyListeners();
-}
-
-  Future<void> startRound() async {
-  if (currentRound == 1) {
-    _usedPictureIds.clear();
-  }
-  timeUsage = 0;
-  distanceInMeters = null;
-  _timer?.cancel();
-  startTimer();
-  await getPicture();
-  notifyListeners();
-}
-
-  bool navigateToScore = false;
-  bool navigateToWellDone = false;
-
-  void setGuessLocation(GeoPoint guessedPoint) {
-    final correct = location;
-    if (correct == null) return;
-
-    const double earthRadius = 6371000;
-    final double lat1 = correct.latitude * (pi / 180);
-    final double lat2 = guessedPoint.latitude * (pi / 180);
-    final double dLat = (guessedPoint.latitude - correct.latitude) * (pi / 180);
-    final double dLon = (guessedPoint.longitude - correct.longitude) * (pi / 180);
-
-    final double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
-    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    distanceInMeters = earthRadius * c;
+    pictures = await _photoModel.pickUnseenPhoto();
     notifyListeners();
   }
 
+  Future<void> startRound() async {
+    if (currentRound == 1) {
+      _photoModel.reset();
+    }
+    timeUsage = 0;
+    distanceInMeters = null;
+    _timer?.cancel();
+    startTimer();
+    await getPicture();
+    notifyListeners();
+  }
+
+  // NOW uses GeoModel instead of inline Haversine math
+  void setGuessLocation(GeoPoint guessedPoint) {
+    final correct = location;
+    if (correct == null) return;
+    distanceInMeters = _geoModel.calculateDistance(correct, guessedPoint);
+    notifyListeners();
+  }
+
+  // Round logic kept exactly as-is
   void addRoundScore() {
     final distance = distanceInMeters ?? 9999.0;
     final roundScore = _scorepageModel.calculatePoints(distance, timeUsage);
