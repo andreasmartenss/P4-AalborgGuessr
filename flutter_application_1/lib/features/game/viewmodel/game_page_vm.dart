@@ -47,7 +47,6 @@ class GamePageVM extends ChangeNotifier {
     return GeoPoint(latitude: lat, longitude: lon);
   }
 
-  // NOW uses PhotoPickerModel instead of inline logic
   Future<void> getPicture() async {
     pictures = await _photoModel.pickUnseenPhoto();
     notifyListeners();
@@ -65,7 +64,6 @@ class GamePageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  // NOW uses GeoModel instead of inline Haversine math
   void setGuessLocation(GeoPoint guessedPoint) {
     final correct = location;
     if (correct == null) {
@@ -77,7 +75,7 @@ class GamePageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Round logic kept exactly as-is
+
   void addRoundScore() {
     final distance = distanceInMeters ?? 9999.0;
     print("DEBUG: addRoundScore bruger distance = $distance, tid = $timeUsage");
@@ -111,8 +109,8 @@ class GamePageVM extends ChangeNotifier {
     } else {
       currentRound++;
       _timer?.cancel();
-      await saveAllScores(); // gem til database
-      navigateToWellDone = true; // naviger med data stadig i _roundScores
+      await saveAllScores(); 
+      navigateToWellDone = true; 
     }
     notifyListeners();
   }
