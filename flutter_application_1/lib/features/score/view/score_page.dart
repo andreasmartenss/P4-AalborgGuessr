@@ -28,41 +28,44 @@ class ScorePage extends StatefulWidget {
 }
 
 class _ScorePageState extends State<ScorePage> {
-    final GamePageVM _gamePageVM = GamePageVM();
-  late int totalScore;
-  late int accuracyScore;
-  late int timeScore;
-  late String timeDisplay;
-
+  final GamePageVM _gamePageVM = GamePageVM();
+  int totalScore = 0;
+  int accuracyScore = 0;
+  int timeScore = 0;
+  String timeDisplay = '00:00';
 
   final osmVm = OsmLocationVm();
 
-@override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
-  final time = widget.gamePageVM.timeUsage;
-  final model = ScorepageModel();
+    osmVm.mapController = MapController.withPosition(
+      initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
+    );
 
-  totalScore = model.calculatePoints(distance, time);
-  accuracyScore = model.calculatePoints(distance, 0);
-  timeScore = totalScore - accuracyScore;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 1000));
+      await osmVm.addMarker(widget.gamePageVM); // sætter distanceInMeters
 
-  final minutes = (time ~/ 60).toString().padLeft(2, '0');
-  final seconds = (time % 60).toString().padLeft(2, '0');
-  timeDisplay = '$minutes:$seconds';
+      widget.gamePageVM.addRoundScore(); // beregn score EFTER GPS er hentet
 
-  osmVm.mapController = MapController.withPosition(
-    initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
-  );
+      final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
+      final time = widget.gamePageVM.timeUsage;
+      final model = ScorepageModel();
 
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    await osmVm.addMarker(widget.gamePageVM);
-  });
-}
-  
+      setState(() {
+        totalScore = model.calculatePoints(distance, time);
+        accuracyScore = model.calculatePoints(distance, 0);
+        timeScore = totalScore - accuracyScore;
+
+        final minutes = (time ~/ 60).toString().padLeft(2, '0');
+        final seconds = (time % 60).toString().padLeft(2, '0');
+        timeDisplay = '$minutes:$seconds';
+      });
+    });
+  }
+
   void _showSkipExitDialog() {
     showDialog(
       context: context,
@@ -200,21 +203,21 @@ void initState() {
 
             // ── Bottom buttons ─────────────────────────────────────────
             Padding(
-                padding: const EdgeInsets.all(16),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        onPressed: _showSkipExitDialog,
-                        icon: const Icon(
-                          Icons.cancel_outlined,
-                          size: 36,
-                          color: Colors.black,
-                        ),
+              padding: const EdgeInsets.all(16),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: _showSkipExitDialog,
+                      icon: const Icon(
+                        Icons.cancel_outlined,
+                        size: 36,
+                        color: Colors.black,
                       ),
                     ),
+                  ),
 
                   const Spacer(),
 

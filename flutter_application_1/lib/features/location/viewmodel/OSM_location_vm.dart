@@ -20,6 +20,7 @@ class OsmLocationVm {
 
     try {
       final userLocation = await mapController.myLocation();
+      gamePageVM.setGuessLocation(userLocation);
       await mapController.drawRoadManually([
         userLocation,
         pictureLocation,

@@ -211,7 +211,7 @@ class _TheGamePageState extends State<TheGamePage> {
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
-                        onPressed: _gamePageVM.onGuess,
+                        onPressed: _gamePageVM.onGuess, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(
                             216,

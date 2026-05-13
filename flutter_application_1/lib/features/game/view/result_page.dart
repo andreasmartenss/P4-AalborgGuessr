@@ -94,8 +94,14 @@ class _UIPageState extends State<UIPage> {
                 padding: const EdgeInsets.only(top: 80),
 
                 child: Column(
-                  children: const [
-                    Text('WELL DONE!', style: TextStyle(fontSize: 40)),
+                  children:  [
+                    Text('WELL DONE!', style: TextStyle(fontSize: 40,)),
+                    Text(
+                      widget.roundScores
+                          .fold(0, (sum, item) => sum + item)
+                          .toString(),
+                      style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
@@ -105,6 +111,7 @@ class _UIPageState extends State<UIPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                   
                   _buildRound("ROUND 1", 0),
                   const SizedBox(height: 10),
 
@@ -119,13 +126,7 @@ class _UIPageState extends State<UIPage> {
 
                   _buildRound("ROUND 5", 4),
                   const SizedBox(height: 20),
-
-                  Text(
-                    widget.roundScores
-                        .fold(0, (sum, item) => sum + item)
-                        .toString(),
-                    style: const TextStyle(fontSize: 40),
-                  ),
+               
                 ],
               ),
             ),

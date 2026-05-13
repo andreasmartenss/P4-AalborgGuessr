@@ -68,22 +68,32 @@ class GamePageVM extends ChangeNotifier {
   // NOW uses GeoModel instead of inline Haversine math
   void setGuessLocation(GeoPoint guessedPoint) {
     final correct = location;
-    if (correct == null) return;
+    if (correct == null) {
+      print("DEBUG: correct location er null!");
+      return;
+    }
     distanceInMeters = _geoModel.calculateDistance(correct, guessedPoint);
+    print("DEBUG: distanceInMeters = $distanceInMeters");
     notifyListeners();
   }
 
   // Round logic kept exactly as-is
   void addRoundScore() {
     final distance = distanceInMeters ?? 9999.0;
+    print("DEBUG: addRoundScore bruger distance = $distance, tid = $timeUsage");
     final roundScore = _scorepageModel.calculatePoints(distance, timeUsage);
+    print("DEBUG: roundScore = $roundScore");
     score += roundScore;
     _roundScores.add(roundScore);
     notifyListeners();
   }
 
   Future<void> saveAllScores() async {
-    if (_roundScores.length < 5) return;
+  print("DEBUG: _roundScores ved saveAllScores = $_roundScores");
+  if (_roundScores.length < 5) {
+    print("DEBUG: for få scores! Antal = ${_roundScores.length}");
+    return;
+  }
 
     await _scorepageModel.saveGameScore(
       round1: _roundScores[0],
@@ -92,8 +102,6 @@ class GamePageVM extends ChangeNotifier {
       round4: _roundScores[3],
       round5: _roundScores[4],
     );
-
-    _roundScores.clear();
   }
 
   Future<void> nextRound() async {
@@ -103,8 +111,8 @@ class GamePageVM extends ChangeNotifier {
     } else {
       currentRound++;
       _timer?.cancel();
-      await saveAllScores();
-      navigateToWellDone = true;
+      await saveAllScores(); // gem til database
+      navigateToWellDone = true; // naviger med data stadig i _roundScores
     }
     notifyListeners();
   }
@@ -119,13 +127,12 @@ class GamePageVM extends ChangeNotifier {
   }
 
   void onGuess() {
-    addRoundScore();
-    navigateToScore = true;
-    if (currentRound >= totalRounds) {
-      _timer?.cancel();
-    }
-    notifyListeners();
+  navigateToScore = true;
+  if (currentRound >= totalRounds) {
+    _timer?.cancel();
   }
+  notifyListeners();
+}
 
   @override
   void dispose() {

@@ -37,7 +37,7 @@ class ScorepageModel {
 
     try {
       final int total = totalScore;
-      await pb.collection('users').create(body: {
+      await pb.collection('user').create(body: {
         'round_1': _roundScores[0],
         'round_2': _roundScores[1],
         'round_3': _roundScores[2],
@@ -64,7 +64,7 @@ class ScorepageModel {
     final int totalScore = round1 + round2 + round3 + round4 + round5;
 
     try {
-      await pb.collection('users').create(body: {
+      await pb.collection('user').create(body: {
         'round_1': round1,
         'round_2': round2,
         'round_3': round3,
