@@ -31,10 +31,10 @@ class GeoModel {
     final double haversineTheta = sin(dLat / 2) * sin(dLat / 2) +
         cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
     
-    // calculating the angle between the two points
+    // Calculating the angle between the two points
     final double calculatePoints = 2 * atan2(sqrt(haversineTheta), sqrt(1 - haversineTheta));
 
-    // returns the distance in meters by multiplying the earths radius in meters and the angle of the pictures.
+    // Returns the distance in meters by multiplying the earths radius in meters and the angle of the pictures.
     return earthRadius * calculatePoints;
   }
 }
