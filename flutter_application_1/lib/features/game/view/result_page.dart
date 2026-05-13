@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:share_plus/share_plus.dart';
-import '../../score/model/scorepage_model.dart';
-import '../viewmodel/game_page_vm.dart';
-import 'package:flutter_application_1/features/score/view/score_page.dart';
 
+// This is the UI page for the result page.
+
+// void main runs the application
 void main() {
   runApp(const WellDonePage(roundScores: []));
 }
 
 class WellDonePage extends StatelessWidget {
+  //attribute that makes a list of integers of individual rounds
   final List<int> roundScores;
 
+  // Reqirements to run the result page
   const WellDonePage({super.key, required this.roundScores});
 
+  // build the page
   @override
   Widget build(BuildContext context) {
     return UIPage(title: 'Well Done Page', roundScores: roundScores);
   }
 }
 
+// this class contains reqirements to build the application
 class UIPage extends StatefulWidget {
-  const UIPage({super.key, required this.title, required this.roundScores});
 
+  // these attributes builds the application
+  const UIPage({super.key, required this.title, required this.roundScores});
   final String title;
   final List<int> roundScores;
 
@@ -34,18 +38,27 @@ class UIPage extends StatefulWidget {
   State<UIPage> createState() => _UIPageState();
 }
 
+// These are the UI elements and functions in the result page.
 class _UIPageState extends State<UIPage> {
+
+  // This widget are the individual round's results
   Widget _buildRound(String title, int index) {
+
+    /**
+     * if-statement that states, if the rounds are less than, or equal to the index of results, then it should return 
+     * a new titled round with the value zero.
+     */
     if (widget.roundScores.length <= index) {
       return Text("$title: 0", style: const TextStyle(fontSize: 25));
     }
-
+    // Else it should return the points of the round.
     return Text(
       "$title: ${widget.roundScores[index]}",
       style: const TextStyle(fontSize: 25),
     );
   }
 
+  // UI button funcationality that sents the user back to the home page.
   void _UIbutton() {
     setState(() {
       Navigator.pushAndRemoveUntil(
@@ -56,8 +69,10 @@ class _UIPageState extends State<UIPage> {
     });
   }
 
+  // Confetti object initialized.
   late ConfettiController _controller;
 
+  // initState is the method that initializes the functionaliies of the confetti effect.
   @override
   void initState() {
     super.initState();
@@ -65,12 +80,14 @@ class _UIPageState extends State<UIPage> {
     _controller.play();
   }
 
+  // Disposes the confetti object after initializing it, so the object does not remain in the heap.
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  // These are the visual elements.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +103,7 @@ class _UIPageState extends State<UIPage> {
             ],
           ),
         ),
+        // Title border.
         child: Stack(
           children: [
             Align(
@@ -96,6 +114,7 @@ class _UIPageState extends State<UIPage> {
                 child: Column(
                   children:  [
                     Text('WELL DONE!', style: TextStyle(fontSize: 40,)),
+                    // Taking each individual rounds and adds them together to show the user their total score.
                     Text(
                       widget.roundScores
                           .fold(0, (sum, item) => sum + item)
@@ -107,6 +126,7 @@ class _UIPageState extends State<UIPage> {
               ),
             ),
 
+            // Showing the user their results of individual rounds.
             Align(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -131,6 +151,7 @@ class _UIPageState extends State<UIPage> {
               ),
             ),
 
+          // Share button.
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
@@ -144,6 +165,7 @@ class _UIPageState extends State<UIPage> {
               ),
             ),
 
+            // Button that sends the user back to the home page.
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -160,6 +182,7 @@ class _UIPageState extends State<UIPage> {
                       width: 150,
                       height: 60,
                       child: ElevatedButton(
+                        // Functionality taken from the _UIbutton method above.
                         onPressed: _UIbutton,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(
@@ -172,6 +195,8 @@ class _UIPageState extends State<UIPage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
+
+                        // Text inside of the button.
                         child: const Text(
                           "FINISH",
                           style: TextStyle(
@@ -187,6 +212,7 @@ class _UIPageState extends State<UIPage> {
               ),
             ),
 
+            // Confetti effect that shoots from the top left corner of the screen.
             Align(
               alignment: Alignment.topLeft,
               child: ConfettiWidget(
@@ -201,6 +227,7 @@ class _UIPageState extends State<UIPage> {
               ),
             ),
 
+            // Confetti effectthat shoots from the top right corner of the screen.
             Align(
               alignment: Alignment.topRight,
               child: ConfettiWidget(
