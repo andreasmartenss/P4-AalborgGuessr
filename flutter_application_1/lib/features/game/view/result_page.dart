@@ -7,29 +7,29 @@ import 'package:share_plus/share_plus.dart';
 
 // This is the UI page for the result page.
 
-// void main runs the application
+// Void main runs the application
 void main() {
   runApp(const WellDonePage(roundScores: []));
 }
 
 class WellDonePage extends StatelessWidget {
-  //attribute that makes a list of integers of individual rounds
+  // Attribute that makes a list of integers of individual rounds.
   final List<int> roundScores;
 
-  // Reqirements to run the result page
+  // Reqirements to run the result page.
   const WellDonePage({super.key, required this.roundScores});
 
-  // build the page
+  // Build the page.
   @override
   Widget build(BuildContext context) {
     return UIPage(title: 'Well Done Page', roundScores: roundScores);
   }
 }
 
-// this class contains reqirements to build the application
+// This class contains reqirements to build the application.
 class UIPage extends StatefulWidget {
 
-  // these attributes builds the application
+  // These attributes builds the application.
   const UIPage({super.key, required this.title, required this.roundScores});
   final String title;
   final List<int> roundScores;
@@ -41,7 +41,7 @@ class UIPage extends StatefulWidget {
 // These are the UI elements and functions in the result page.
 class _UIPageState extends State<UIPage> {
 
-  // This widget are the individual round's results
+  // This widget are the individual round's results.
   Widget _buildRound(String title, int index) {
 
     /**

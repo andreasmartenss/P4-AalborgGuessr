@@ -1,9 +1,8 @@
-// integration_test/app_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_application_1/main.dart' as app;
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/game/view/result_page.dart';
+
 void main() {
   testWidgets('full game flow — 5 rounds then return to home', (tester) async {
   app.main();
