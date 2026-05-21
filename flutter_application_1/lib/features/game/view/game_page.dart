@@ -5,10 +5,15 @@ import 'package:flutter_application_1/features/home/view/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../viewmodel/game_page_vm.dart';
 
+/// This is the UI page for the game that displys the pictures where the player 
+/// has to go to each of the locations
+
+/// This method runs the application
 void main() {
   runApp(const GamePage());
 }
 
+/// This class builds the application
 class GamePage extends StatelessWidget {
   const GamePage({super.key});
 
@@ -24,6 +29,7 @@ class GamePage extends StatelessWidget {
   }
 }
 
+/// This class is what builds the actual application
 class TheGamePage extends StatefulWidget {
   const TheGamePage({super.key, required this.title});
 
@@ -33,14 +39,22 @@ class TheGamePage extends StatefulWidget {
   State<TheGamePage> createState() => _TheGamePageState();
 }
 
+
 class _TheGamePageState extends State<TheGamePage> {
+
+  /// Initializing the game page view model as an object
   final GamePageVM _gamePageVM = GamePageVM();
 
+/// This method uses the logic that has been fetched and inplmented in the viewmodel, and initializes it
   @override
   void initState() {
     super.initState();
     _gamePageVM.startRound();
+
+    /// Navigation taken from the game page view model
     _gamePageVM.addListener(() {
+      /// if-statement, that states if the method is false, then the game page should navigate to 
+      /// the scorepage
       if (_gamePageVM.navigateToScore) {
         _gamePageVM.navigateToScore = false;
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -52,6 +66,8 @@ class _TheGamePageState extends State<TheGamePage> {
           );
         });
       }
+      /// if-statement, that states, if the method is false, then the game page should navigate to the 
+      /// result page
       if (_gamePageVM.navigateToWellDone) {
         _gamePageVM.navigateToWellDone = false;
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -67,12 +83,14 @@ class _TheGamePageState extends State<TheGamePage> {
     });
   }
 
+  /// Disposing timer from the game page view model, so the heap is clean
   @override
   void dispose() {
     _gamePageVM.dispose();
     super.dispose();
   }
 
+  /// This is a module that gives the player the option to eithe skip a round or leave the game
   void _showSkipExitDialog() {
     showDialog(
       context: context,
@@ -88,6 +106,7 @@ class _TheGamePageState extends State<TheGamePage> {
           children: [
             SizedBox(
               width: double.infinity,
+              /// Button to skip the round
               child: ElevatedButton(
                 onPressed: () {
                   _gamePageVM.skipRound();
@@ -106,6 +125,7 @@ class _TheGamePageState extends State<TheGamePage> {
             ),
             SizedBox(
               width: double.infinity,
+              /// Button to leave the game
               child: ElevatedButton(
                 onPressed: () {
                   _gamePageVM.leaveGame();
@@ -147,8 +167,11 @@ class _TheGamePageState extends State<TheGamePage> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  /// These UI elements shows the user their time of the indivitual rounds,
+                  /// their score, and the number of rounds there are
                   children: [
                     Text(
+                      /// Time
                       _gamePageVM.formattedTime,
                       style: GoogleFonts.signika(
                         fontSize: 20,
@@ -156,6 +179,7 @@ class _TheGamePageState extends State<TheGamePage> {
                       ),
                     ),
                     Text(
+                      /// Score
                       'Score: ${_gamePageVM.score}',
                       style: GoogleFonts.signika(
                         fontSize: 20,
@@ -163,6 +187,7 @@ class _TheGamePageState extends State<TheGamePage> {
                       ),
                     ),
                     Text(
+                      /// Round/Rounds
                       '${_gamePageVM.currentRound}/${_gamePageVM.totalRounds}',
                       style: GoogleFonts.signika(
                         fontSize: 20,
@@ -177,6 +202,7 @@ class _TheGamePageState extends State<TheGamePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
+                    /// Gets the pictures and the logic from the view model, and displys the pictures.
                     child: _gamePageVM.pictures == null
                         ? const Center(child: CircularProgressIndicator())
                         : Image.network(
@@ -194,6 +220,7 @@ class _TheGamePageState extends State<TheGamePage> {
                   alignment: Alignment.center,
                   children: [
                     Align(
+                      /// The module that gives the player the option to either leave the game or skip the round
                       alignment: Alignment.centerLeft,
                       child: IconButton(
                         onPressed: _showSkipExitDialog,
@@ -207,6 +234,7 @@ class _TheGamePageState extends State<TheGamePage> {
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
+                        /// The guess button, which implements the logic form the method in the view model
                         onPressed: _gamePageVM.onGuess, 
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(
