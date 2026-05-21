@@ -152,19 +152,25 @@ class GamePageVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Method that navigates the user to the score page.
+  /// Promise that sets the current location of the player 
+  /// and the user to the score page.
   Future<void> onGuess() async {
     try {
+      /// fetches the location using a geo locater
       final position = await Geolocator.getCurrentPosition();
       final guessedPoint = GeoPoint(
         latitude: position.latitude,
         longitude: position.longitude,
       );
+      /// Uses the method above to set the guessing point
       setGuessLocation(guessedPoint);
     } catch (e) {
       print("DEBUG: GPS fejl: $e");
     }
+    /// adds the score when pressing the guess button in game page view
     addRoundScore();
+
+    ///navigation to the score page viw
     navigateToScore = true;
     if (currentRound >= totalRounds) {
       _timer?.cancel();
