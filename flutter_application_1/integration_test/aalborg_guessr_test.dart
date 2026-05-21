@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_application_1/main.dart' as app;
+import 'package:flutter_application_1/features/home/view/home_page.dart' as app;
 
 void main() {
   testWidgets('full game flow — 5 rounds then return to home', (tester) async {
@@ -37,7 +37,7 @@ void main() {
 
   // Return to home
   await tester.tap(find.text('FINISH'));
-  await tester.pumpAndSettle();
+  await tester.pump(const Duration(seconds: 10));
   expect(find.text('Aalborg\nGuessr'), findsOneWidget);
 });
 }
