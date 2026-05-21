@@ -34,7 +34,7 @@ Run the code inside home_page.dart in the lib/features/home/view folders.
 
 ### How to play the game
 
-When debugging the code on an actual phone, there's a tutorial that explains the game in the right upper corner. When starting the game, go to each of the locations in Aalborg as shown in the pictures, to maximize points. The game consists of five rounds, that will display an overall performance in points in a result page afterwards.
+When debugging the code on an actual phone, there's a module with a tutorial that explains the game in the right upper corner. When starting the game, go to each of the locations in Aalborg as shown in the pictures, to maximize points. The game consists of five rounds, that will display an overall performance in points in a result page afterwards.
 
 ## License
 
