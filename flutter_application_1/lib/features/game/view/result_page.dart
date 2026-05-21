@@ -43,11 +43,10 @@ class _UIPageState extends State<UIPage> {
 
   /// This widget are the individual round's results.
   Widget _buildRound(String title, int index) {
-
-    /**
-     * if-statement that states, if the rounds are less than, or equal to the index of results, then it should return 
-     * a new titled round with the value zero.
-     */
+    
+     /// if-statement that states, if the rounds are less than, or equal to the index of results, then it should return 
+     /// a new titled round with the value zero.
+     
     if (widget.roundScores.length <= index) {
       return Text("$title: 0", style: const TextStyle(fontSize: 25));
     }

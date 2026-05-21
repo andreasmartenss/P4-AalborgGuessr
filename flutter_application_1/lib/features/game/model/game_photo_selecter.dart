@@ -17,10 +17,8 @@ class PhotoPickerModel {
     /// Total set of pictures with their coordinates.
     final totalItems = countResult.totalItems;
 
-    /**
-     * An if statement, that states if the used photoID is bigger or equal to the photo ID that has already been used,  
-     * then it must clear the list.
-     */
+     /// An if statement, that states if the used photoID is bigger or equal to the photo ID that has already been used,  
+     /// then it must clear the list.
     if (_usedIds.length >= totalItems) {
       _usedIds.clear();
     }
@@ -28,10 +26,8 @@ class PhotoPickerModel {
    /// The record that is made into a null if nothing else is declared.
     RecordModel? selected;
 
-    /**
-     * this is a do-while loop, that parses the list of photos into integers, and then dart math to randomize.
-     * the selected photo in the list.
-     */
+    /// This is a do-while loop, that parses the list of photos into integers, and then dart math to randomize.
+     /// the selected photo in the list.
     do {
       final randomPage = Random().nextInt(totalItems) + 1;
       final result = await PocketBaseService.pb

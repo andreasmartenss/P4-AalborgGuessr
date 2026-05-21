@@ -20,14 +20,11 @@ class GeoModel {
     final double dLon = (guessed.longitude - correct.longitude) * (pi / 180);
 
 
-    /**
-     * This is were the Haversine equation is implemented. 
-     * The variable calculates the difference in latitude and longitude,
-     * converted to radians, to determine the central angle between two coordinates on the Earth's surface.
-     * 
-     * Using the Haversine formula is appropriate when calculating the distance in a sphere, and takes the 
-     * difference between latittude and longtitude in to account.
-     */
+    /// This is were the Haversine equation is implemented. 
+    /// The variable calculates the difference in latitude and longitude,
+    /// converted to radians, to determine the central angle between two coordinates on the Earth's surface.
+    /// Using the Haversine formula is appropriate when calculating the distance in a sphere, and takes the
+    /// difference between latittude and longtitude in to account.
     final double haversineTheta = sin(dLat / 2) * sin(dLat / 2) +
         cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
     

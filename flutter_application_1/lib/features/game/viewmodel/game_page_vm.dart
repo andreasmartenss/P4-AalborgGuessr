@@ -128,7 +128,7 @@ class GamePageVM extends ChangeNotifier {
       currentRound++;
       await startRound();
     } else {
-      currentRound++; // giver dette mening? når den har ramt 5 runder, burde den så imcrement endnu engang?
+      currentRound++; /// giver dette mening? når den har ramt 5 runder, burde den så imcrement endnu engang?
       _timer?.cancel();
       await saveAllScores(); 
       navigateToWellDone = true; 
