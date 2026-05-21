@@ -4,7 +4,6 @@ import 'package:flutter_application_1/features/game/viewmodel/game_page_vm.dart'
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_application_1/features/location/viewmodel/OSM_location_vm.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/features/game/view/game_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 
 class ScorePageApp extends StatelessWidget {
@@ -31,7 +30,6 @@ class _ScorePageState extends State<ScorePage> {
   final GamePageVM _gamePageVM = GamePageVM();
   int totalScore = 0;
   int accuracyScore = 0;
-  int timeScore = 0;
   String timeDisplay = '00:00';
 
   final osmVm = OsmLocationVm();
@@ -57,7 +55,6 @@ class _ScorePageState extends State<ScorePage> {
       setState(() {
         totalScore = model.calculatePoints(distance, time);
         accuracyScore = model.calculatePoints(distance, 0);
-        timeScore = totalScore - accuracyScore;
 
         final minutes = (time ~/ 60).toString().padLeft(2, '0');
         final seconds = (time % 60).toString().padLeft(2, '0');
@@ -169,7 +166,6 @@ class _ScorePageState extends State<ScorePage> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text('$timeScore', style: const TextStyle(fontSize: 16)),
                     ],
                   ),
                 ],
