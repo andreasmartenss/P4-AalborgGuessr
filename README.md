@@ -12,7 +12,7 @@ The game contains a backend service, that stores the player's scores, and the se
 
 This project uses an android emulator to test the game overall dynamic flow through the game's user interface.
 
-Installing the emulator can be done through the official flutter website, which also has a tutorial, that shows how to install the emulator:
+Installing the emulator can be done through the official flutter website, which also has a tutorial, that explains how to install the emulator:
 
 https://docs.flutter.dev/platform-integration/android/setup
 
