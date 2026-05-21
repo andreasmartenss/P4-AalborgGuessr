@@ -48,8 +48,6 @@ class _ScorePageState extends State<ScorePage> {
       await Future.delayed(const Duration(milliseconds: 1000));
       await osmVm.addMarker(widget.gamePageVM); // sætter distanceInMeters
 
-      widget.gamePageVM.addRoundScore(); // beregn score EFTER GPS er hentet
-
       final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
       final time = widget.gamePageVM.timeUsage;
       final model = ScorepageModel();

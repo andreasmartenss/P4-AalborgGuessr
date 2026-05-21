@@ -155,6 +155,7 @@ class GamePageVM extends ChangeNotifier {
   /// Promise that sets the current location of the player 
   /// and the user to the score page.
   Future<void> onGuess() async {
+    _timer?.cancel(); 
     try {
       /// fetches the location using a geo locater
       final position = await Geolocator.getCurrentPosition();
