@@ -29,7 +29,7 @@ https://docs.flutter.dev/install
 
 ### How to run the project
 
-Run the code inside home_page.dart in the lib/features/home/view folders.
+Run the code inside home_page.dart in the flutter_application_1/lib/features/home/view folders.
 
 
 ### How to play the game
