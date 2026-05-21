@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           barrierDismissible: true,
                           builder: (_) => AlertDialog(
-                            title: const Text('Wellcome to AalborgGuessr!'),
+                            title: const Text('Welcome to AalborgGuessr!'),
                             content: const Text('Press “NEW GAME” to begin the game. The game consists of five rounds, where you have to go to each of the locations as shown in the picture. Have fun!'),
                             actions: [
                               TextButton(
