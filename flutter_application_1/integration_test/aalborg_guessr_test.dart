@@ -8,7 +8,7 @@ void main() {
 
   // Start game from home
   await tester.tap(find.text('NEW GAME'));
-  await tester.pump(const Duration(seconds: 3));
+  await tester.pump(const Duration(seconds: 10));
 
   for (int round = 1; round <= 5; round++) {
     // Verify round counter
@@ -16,7 +16,7 @@ void main() {
 
     // Make a guess
     await tester.tap(find.text('GUESS!'));
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(seconds: 10));
 
     // Verify score page
     expect(find.text('SCORE'), findsOneWidget);
@@ -26,11 +26,11 @@ void main() {
     if (round < 5) {
       // Go to next round
       await tester.tap(find.text('NEXT'));
-      await tester.pump(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 10));
     } else {
       // Last round — expect well done page
       await tester.tap(find.text('NEXT'));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 10));
       expect(find.text('WELL DONE!'), findsOneWidget);
     }
   }

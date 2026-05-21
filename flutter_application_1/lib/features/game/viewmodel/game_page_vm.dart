@@ -10,7 +10,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 // and turn it into data for the view to show.
 class GamePageVM extends ChangeNotifier {
 
-  // Bbjects from the models initialized 
+  // Objects from the models initialized 
   final GeoModel _geoModel = GeoModel();
   final PhotoPickerModel _photoModel = PhotoPickerModel();
   final ScorepageModel _scorepageModel = ScorepageModel();
