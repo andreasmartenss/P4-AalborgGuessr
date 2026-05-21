@@ -169,6 +169,7 @@ class _ScorePageState extends State<ScorePage> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
+                      Text('$timeScore', style: const TextStyle(fontSize: 16)),
                     ],
                   ),
                 ],
