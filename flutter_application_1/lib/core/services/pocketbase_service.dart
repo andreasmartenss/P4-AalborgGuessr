@@ -18,9 +18,9 @@ class PocketBaseService {
       print(record.data);
     }
   }
-  Future<int> getLatestTotalScore() async {
-  final records = await pb.collection('users')
-      .getList(sort: '-created', perPage: 1);
+  Future<int> getHighScore() async {
+  final records = await pb.collection('user')
+      .getList(sort: '-TotalScore', perPage: 1);
   
   if (records.items.isNotEmpty) {
     return records.items.first.data['TotalScore'] ?? 0;

@@ -8,10 +8,12 @@ class HomeViewModel extends ChangeNotifier {
   
   int totalScore = 0;
 
-  HomeViewModel(this._service);
+  HomeViewModel(this._service) {
+    loadHighScore();
+  }
 
-  Future<void> loadLatestScore() async {
-  totalScore = await _service.getLatestTotalScore();
-  notifyListeners();
-}
+  Future<void> loadHighScore() async {
+    totalScore = await _service.getHighScore();
+    notifyListeners();
+  }
 }

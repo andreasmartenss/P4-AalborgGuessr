@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import '../../game/view/game_page.dart';
-import 'package:flutter_application_1/features/score/model/scorepage_model.dart';
 import 'package:flutter_application_1/features/home/viewmodel/home_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/core/services/pocketbase_service.dart';
@@ -15,6 +14,7 @@ void main() {
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -24,9 +24,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeViewModel>().loadHighScore();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +75,12 @@ class HomePage extends StatelessWidget {
                                 style: TextButton.styleFrom(
                                   foregroundColor: const Color.fromARGB(255, 50, 50, 50),
                                 ),
-                                child: Text('Close'),
+                                child: const Text('Close'),
                               ),
                             ],
                             elevation: 24.0,
                             actionsPadding: const EdgeInsets.only(right: 12.0, bottom: 8.0),
-                            backgroundColor: Color.fromARGB(255, 255, 250, 225),
+                            backgroundColor: const Color.fromARGB(255, 255, 250, 225),
                             titleTextStyle: GoogleFonts.signika(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -117,15 +129,17 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 2),
-                            Consumer<HomeViewModel>(
-                            builder: (context, vm, child) {
-                                 return Text('${vm.totalScore}',
-                                 style: GoogleFonts.signika(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                 ));
+                        Consumer<HomeViewModel>(
+                          builder: (context, vm, child) {
+                            return Text(
+                              '${vm.totalScore}',
+                              style: GoogleFonts.signika(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
                           },
-                          ),
+                        ),
                       ],
                     ),
                     Image.asset(
@@ -153,11 +167,17 @@ class HomePage extends StatelessWidget {
                         width: 220,
                         height: 64,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            await Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const GamePage()),
+                              MaterialPageRoute(
+                                builder: (context) => const GamePage(),
+                              ),
                             );
+                            // Opdater highscore når vi vender tilbage fra spillet
+                            if (context.mounted) {
+                              context.read<HomeViewModel>().loadHighScore();
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
