@@ -4,7 +4,6 @@ import 'package:flutter_application_1/features/game/viewmodel/game_page_vm.dart'
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_application_1/features/location/viewmodel/OSM_location_vm.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/features/game/view/game_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 
 class ScorePageApp extends StatelessWidget {

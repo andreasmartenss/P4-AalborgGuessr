@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart'; // Importer Flutter material design pakke
 import 'package:flutter_application_1/features/game/view/game_page.dart';
-import 'package:provider/provider.dart'; // Importer Provider til state management
-import 'package:flutter_application_1/features/score/view/score_page.dart';// Importer ScorePageApp
-import 'features/home/view/home_page.dart'; // Importer HomePageApp
+
 
 void main() {
   runApp(const GamePage());
