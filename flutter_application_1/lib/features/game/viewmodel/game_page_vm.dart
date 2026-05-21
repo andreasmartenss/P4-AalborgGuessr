@@ -5,12 +5,12 @@ import 'package:flutter_application_1/features/game/model/game_photo_selecter.da
 import 'package:pocketbase/pocketbase.dart';
 import 'dart:async';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 
 /// This class is s a view-model for the game, that fetches elements from the geo model, photo selecter model and the score model
 /// and turn it into data for the view to show.
 class GamePageVM extends ChangeNotifier {
-
-  /// Objects from the models initialized 
+  /// Objects from the models initialized
   final GeoModel _geoModel = GeoModel();
   final PhotoPickerModel _photoModel = PhotoPickerModel();
   final ScorepageModel _scorepageModel = ScorepageModel();
@@ -25,8 +25,10 @@ class GamePageVM extends ChangeNotifier {
 
   /// Attributes that takes the distance in meters from the geo model.
   double? distanceInMeters;
+
   /// List of integers of the scores of individual rounds.
   final List<int> _roundScores = [];
+
   /// a getter for the list.
   List<int> get roundScores => _roundScores;
 
@@ -88,6 +90,7 @@ class GamePageVM extends ChangeNotifier {
       print("DEBUG: correct location er null!");
       return;
     }
+
     /// Calculaes the distance between the photo and the player in meters using the geo model.
     distanceInMeters = _geoModel.calculateDistance(correct, guessedPoint);
     print("DEBUG: distanceInMeters = $distanceInMeters");
@@ -107,11 +110,11 @@ class GamePageVM extends ChangeNotifier {
 
   /// Promise, that saves all individual rounds. This is for the result page.
   Future<void> saveAllScores() async {
-  print("DEBUG: _roundScores ved saveAllScores = $_roundScores");
-  if (_roundScores.length < 5) {
-    print("DEBUG: for få scores! Antal = ${_roundScores.length}");
-    return;
-  }
+    print("DEBUG: _roundScores ved saveAllScores = $_roundScores");
+    if (_roundScores.length < 5) {
+      print("DEBUG: for få scores! Antal = ${_roundScores.length}");
+      return;
+    }
 
     await _scorepageModel.saveGameScore(
       round1: _roundScores[0],
@@ -128,10 +131,12 @@ class GamePageVM extends ChangeNotifier {
       currentRound++;
       await startRound();
     } else {
-      currentRound++; /// giver dette mening? når den har ramt 5 runder, burde den så imcrement endnu engang?
+      currentRound++;
+
+      /// giver dette mening? når den har ramt 5 runder, burde den så imcrement endnu engang?
       _timer?.cancel();
-      await saveAllScores(); 
-      navigateToWellDone = true; 
+      await saveAllScores();
+      navigateToWellDone = true;
     }
     notifyListeners();
   }
@@ -148,12 +153,23 @@ class GamePageVM extends ChangeNotifier {
   }
 
   /// Method that navigates the user to the score page.
-  void onGuess() {
-  navigateToScore = true;
-  if (currentRound >= totalRounds) {
-    _timer?.cancel();
-  }
-  notifyListeners();
+  Future<void> onGuess() async {
+    try {
+      final position = await Geolocator.getCurrentPosition();
+      final guessedPoint = GeoPoint(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
+      setGuessLocation(guessedPoint);
+    } catch (e) {
+      print("DEBUG: GPS fejl: $e");
+    }
+    addRoundScore();
+    navigateToScore = true;
+    if (currentRound >= totalRounds) {
+      _timer?.cancel();
+    }
+    notifyListeners();
   }
 
   /// This method stops the timer, and disposes it from the heap.
