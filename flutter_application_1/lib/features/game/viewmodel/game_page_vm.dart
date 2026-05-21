@@ -168,10 +168,10 @@ class GamePageVM extends ChangeNotifier {
     } catch (e) {
       print("DEBUG: GPS fejl: $e");
     }
-    /// adds the score when pressing the guess button in game page view
+    /// Adds the score when pressing the guess button in game page view
     addRoundScore();
 
-    ///navigation to the score page viw
+    /// Navigation to the score page view
     navigateToScore = true;
     if (currentRound >= totalRounds) {
       _timer?.cancel();
