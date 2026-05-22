@@ -85,13 +85,13 @@ class GamePageVM extends ChangeNotifier {
   void setGuessLocation(GeoPoint guessedPoint) {
     final correct = location;
 
-    /// If-statement that states if the photos location is equal to null,than print this in the console.
+    /// If-statement that states if the photos location is equal to null, then print this in the console.
     if (correct == null) {
       print("DEBUG: correct location er null!");
       return;
     }
-
-    /// Calculaes the distance between the photo and the player in meters using the geo model.
+ 
+    /// Calculates the distance between the photo and the player in meters using the geo model.
     distanceInMeters = _geoModel.calculateDistance(correct, guessedPoint);
     print("DEBUG: distanceInMeters = $distanceInMeters");
     notifyListeners();

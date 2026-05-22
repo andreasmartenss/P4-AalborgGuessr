@@ -15,7 +15,7 @@ class GeoModel {
     final double lat1 = correct.latitude * (pi / 180);
     final double lat2 = guessed.latitude * (pi / 180);
 
-    /// Calculate the disance between the player and the picture
+    /// Calculate the distance between the player and the picture
     final double dLat = (guessed.latitude - correct.latitude) * (pi / 180);
     final double dLon = (guessed.longitude - correct.longitude) * (pi / 180);
 
