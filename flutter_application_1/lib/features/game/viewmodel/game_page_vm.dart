@@ -87,7 +87,7 @@ class GamePageVM extends ChangeNotifier {
 
     /// If-statement that states if the photos location is equal to null, then print this in the console.
     if (correct == null) {
-      print("DEBUG: correct location er null!");
+      print("DEBUG: correct location is null");
       return;
     }
  
@@ -100,7 +100,7 @@ class GamePageVM extends ChangeNotifier {
   /// This method adds the score to the rounds when the player has guessed.
   void addRoundScore() {
     final distance = distanceInMeters ?? 9999.0;
-    print("DEBUG: addRoundScore bruger distance = $distance, tid = $timeUsage");
+    print("DEBUG: addRoundScore uses distance = $distance, time = $timeUsage");
     final roundScore = _scorepageModel.calculatePoints(distance, timeUsage);
     print("DEBUG: roundScore = $roundScore");
     score += roundScore;
@@ -110,9 +110,9 @@ class GamePageVM extends ChangeNotifier {
 
   /// Promise, that saves all individual rounds. This is for the result page.
   Future<void> saveAllScores() async {
-    print("DEBUG: _roundScores ved saveAllScores = $_roundScores");
+    print("DEBUG: _roundScores in saveAllScores = $_roundScores");
     if (_roundScores.length < 5) {
-      print("DEBUG: for få scores! Antal = ${_roundScores.length}");
+      print("DEBUG: not enough scores. amount = ${_roundScores.length}");
       return;
     }
 
@@ -166,7 +166,7 @@ class GamePageVM extends ChangeNotifier {
       /// Uses the method above to set the guessing point
       setGuessLocation(guessedPoint);
     } catch (e) {
-      print("DEBUG: GPS fejl: $e");
+      print("DEBUG: GPS exception: $e");
     }
     /// Adds the score when pressing the guess button in game page view
     addRoundScore();
