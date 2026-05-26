@@ -6,6 +6,7 @@ import 'package:flutter_application_1/features/location/viewmodel/OSM_location_v
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 
+///Widget that passes the GamePageVM to the ScorePage
 class ScorePageApp extends StatelessWidget {
   final GamePageVM gamePageVM;
   const ScorePageApp({super.key, required this.gamePageVM});
@@ -16,6 +17,7 @@ class ScorePageApp extends StatelessWidget {
   }
 }
 
+/// Widget for the score page that is being shown after each gameround
 class ScorePage extends StatefulWidget {
   final GamePageVM gamePageVM;
   const ScorePage({super.key, required this.gamePageVM, required this.title});
@@ -27,35 +29,53 @@ class ScorePage extends StatefulWidget {
 }
 
 class _ScorePageState extends State<ScorePage> {
+  ///A local instance of the gamepage used for the leave game function
   final GamePageVM _gamePageVM = GamePageVM();
+
+  ///Initialized variables for the score values displayed on the scorepage
   int totalScore = 0;
   int accuracyScore = 0;
   int timeScore = 0;
   String timeDisplay = '00:00';
 
+  ///Handler for the open street map controller and marker placer
   final osmVm = OsmLocationVm();
 
   @override
   void initState() {
     super.initState();
 
+    /// Initializes the map with the position defaulting to central Aalborg as the games takes places there
     osmVm.mapController = MapController.withPosition(
       initPosition: GeoPoint(latitude: 57.0488, longitude: 9.9217),
     );
 
+    ///Waits for the widgets to build before interacting with the map
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      /// Adding a short delay to make sure the map is fully loaded before plaing markers down
       await Future.delayed(const Duration(milliseconds: 1000));
-      await osmVm.addMarker(widget.gamePageVM); // sætter distanceInMeters
 
+      /// Adds markers for the pictures location and the players position (based on gps)
+      /// Draws a line between the 2 positions on the map
+      await osmVm.addMarker(widget.gamePageVM); 
+
+      ///Getting the distance and time used from the gamepageVM
       final distance = widget.gamePageVM.distanceInMeters ?? 9999.0;
       final time = widget.gamePageVM.timeUsage;
       final model = ScorepageModel();
 
+      /// Updates the ui with the scores and the time
       setState(() {
+        ///total score based on time and distance
         totalScore = model.calculatePoints(distance, time);
+        
+        ///Accuraceyscore calculated on distance and with time set to 0 to ignore it
         accuracyScore = model.calculatePoints(distance, 0);
+
+        ///Sets the timeScore as the difference between the totalscore and the accuraceyscore
         timeScore = totalScore - accuracyScore;
 
+        ///Formatting the time to MM:SS for the display in the app
         final minutes = (time ~/ 60).toString().padLeft(2, '0');
         final seconds = (time % 60).toString().padLeft(2, '0');
         timeDisplay = '$minutes:$seconds';
@@ -63,6 +83,7 @@ class _ScorePageState extends State<ScorePage> {
     });
   }
 
+  ///Shows the leave dialog
   void _showSkipExitDialog() {
     showDialog(
       context: context,
@@ -80,6 +101,7 @@ class _ScorePageState extends State<ScorePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  /// uses the leaveGame() method to cancel the timer and leave the game
                   _gamePageVM.leaveGame();
                   Navigator.push(
                     context,
@@ -110,7 +132,7 @@ class _ScorePageState extends State<ScorePage> {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Top score section ──────────────────────────────────────
+            //Top score section
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
               child: Column(
@@ -123,6 +145,7 @@ class _ScorePageState extends State<ScorePage> {
                       letterSpacing: 2,
                     ),
                   ),
+                  ///Shows total score for the round
                   Text(
                     '$totalScore',
                     style: const TextStyle(
@@ -134,12 +157,13 @@ class _ScorePageState extends State<ScorePage> {
               ),
             ),
 
-            // ── Accuracy & Time row ────────────────────────────────────
+            // Accuracey and time row
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  /// Left column shows the accuracey score without the time calculation
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -156,6 +180,7 @@ class _ScorePageState extends State<ScorePage> {
                       ),
                     ],
                   ),
+                  /// Right column shos the time used and the score penalty
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -175,7 +200,8 @@ class _ScorePageState extends State<ScorePage> {
 
             const SizedBox(height: 12),
 
-            // ── Map ────────────────────────────────────────────────────
+            // OSM Map
+            //This displays the map on the scorePage, where the player is positioned and where the target location is
             Expanded(
               child: Container(
                 color: Colors.grey[300],
@@ -187,6 +213,7 @@ class _ScorePageState extends State<ScorePage> {
                       minZoomLevel: 3,
                       maxZoomLevel: 19,
                     ),
+                    ///Tracking is disabled so the map stays focused on the route and not the player
                     userTrackingOption: UserTrackingOption(
                       enableTracking: false,
                       unFollowUser: true,
@@ -198,26 +225,22 @@ class _ScorePageState extends State<ScorePage> {
 
             const SizedBox(height: 16),
 
-            // ── Bottom buttons ─────────────────────────────────────────
+            //Bottom buttons
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Stack(
-                alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: _showSkipExitDialog,
-                      icon: const Icon(
-                        Icons.cancel_outlined,
-                        size: 36,
-                        color: Colors.black,
-                      ),
+                  ///The 'x' button that opens the leave game / skip round dialog
+                  IconButton(
+                    onPressed: _showSkipExitDialog,
+                    icon: const Icon(
+                      Icons.cancel_outlined,
+                      size: 36,
+                      color: Colors.black,
                     ),
                   ),
-
-                  const Spacer(),
-
+                  /// the 'Next' button that navigates to the gamepage to start the next round
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
@@ -250,8 +273,7 @@ class _ScorePageState extends State<ScorePage> {
                       ),
                     ),
                   ),
-
-                  const Spacer(),
+                  // Empty box that fills out the layout to ensure the rows are ballanced
                   const SizedBox(width: 52),
                 ],
               ),
