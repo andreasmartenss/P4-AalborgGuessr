@@ -201,23 +201,17 @@ class _ScorePageState extends State<ScorePage> {
             // ── Bottom buttons ─────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Stack(
-                alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: _showSkipExitDialog,
-                      icon: const Icon(
-                        Icons.cancel_outlined,
-                        size: 36,
-                        color: Colors.black,
-                      ),
+                  IconButton(
+                    onPressed: _showSkipExitDialog,
+                    icon: const Icon(
+                      Icons.cancel_outlined,
+                      size: 36,
+                      color: Colors.black,
                     ),
                   ),
-
-                  const Spacer(),
-
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
@@ -250,8 +244,6 @@ class _ScorePageState extends State<ScorePage> {
                       ),
                     ),
                   ),
-
-                  const Spacer(),
                   const SizedBox(width: 52),
                 ],
               ),
