@@ -1,40 +1,50 @@
-import 'package:flutter_application_1/core/services/pocketbase_service.dart';
+import 'package:flutter_application_1/core/services/pocketbase_service.dart'; //Importing the pocketbase service file
 
+//Model that calculates and saves the scores from the games to the databse
 class ScorepageModel {
+  ///Declaring the pocketbase as a variable
   final pb = PocketBaseService.pb;
 
-  // --- NEW: round tracking ---
-  final List<int> _roundScores = [];
-  List<int> get roundScores => List.unmodifiable(_roundScores);
-  int get totalScore => _roundScores.fold(0, (sum, s) => sum + s);
+  //round tracking
+  final List<int> _roundScores = []; ///Creating a list for the roundscores
+  List<int> get roundScores => List.unmodifiable(_roundScores); ///A getter that returns the list as unmodifiable so it cant be accessed externally
+  int get totalScore => _roundScores.fold(0, (sum, s) => sum + s); ///Calculates the total score from all the rounds
 
-  void addRound(double distanceInMeters, int timeUsage) {
+  void addRound(double distanceInMeters, int timeUsage) { /// uses distanceinmeters and timeusage to calculate the score for each round
     final points = calculatePoints(distanceInMeters, timeUsage);
-    _roundScores.add(points);
+    _roundScores.add(points); ///Adds the points to the roundscores list
   }
 
-  void clearRounds() => _roundScores.clear();
-  // --- END NEW ---
+  void clearRounds() => _roundScores.clear(); /// Clears all the points from roundscores
 
+  ///Pointcalculation based on distance and time used, if within 5 meters of the geopoint it will grand maxpoints which is 5000
+  ///Deducts points based on time used if not within 5 meters
   int calculatePoints(double distanceInMeters, int timeInSeconds) {
     const int maxPoints = 5000;
 
     if (distanceInMeters <= 5.0) {
+      ///The player is within 5 meters anb it reutrns maxpoints
       return maxPoints;
     } else {
+      ///If the player isnt within 5 meters it calculates a distance penalty and a time penalty
       int distancePenalty = (distanceInMeters * 5).toInt();
       int timePenalty = timeInSeconds * 2;
+      ///Calculates finalscore and deducts the penalties
       int finalScore = maxPoints - distancePenalty - timePenalty;
+      ///Returns finalscore, if the score goes below 0 it returns 0
       return finalScore > 0 ? finalScore : 0;
     }
   }
 
-  // NEW: replaces saveGameScore, saves and then clears the round list
+  /// Saves the scores from all the rounds to the database and clears the list afterwards
+  /// If there is less than 5 rounds played it will do nothing
   Future<void> saveAndClear() async {
     if (_roundScores.length < 5) return;
 
     try {
       final int total = totalScore;
+      /// This creates a new record in the user collection in the database
+      /// cotains both the roundscores and the total roundscore
       await pb.collection('user').create(body: {
         'round_1': _roundScores[0],
         'round_2': _roundScores[1],
@@ -47,11 +57,12 @@ class ScorepageModel {
     } catch (e) {
       print('Fejl ved gemning af score: $e');
     }
-
+    /// Clears the round scores after saving them to the database
     clearRounds();
   }
 
-  // Keep the old method if anything else still calls it
+  /// Saves game scores to the database using the individual rounds as parameters
+  /// Kept due to some of the code in the gamepage still using it
   Future<void> saveGameScore({
     required int round1,
     required int round2,
@@ -59,9 +70,11 @@ class ScorepageModel {
     required int round4,
     required int round5,
   }) async {
+    /// Calculates the total roundscore
     final int totalScore = round1 + round2 + round3 + round4 + round5;
 
     try {
+      /// Creates a record in the database that stores the roundscores and the total score
       await pb.collection('user').create(body: {
         'round_1': round1,
         'round_2': round2,
@@ -74,5 +87,5 @@ class ScorepageModel {
     } catch (e) {
       print('Fejl ved gemning af score: $e');
     }
-  }
+  } 
 }
