@@ -36,33 +36,8 @@ class ScorepageModel {
     }
   }
 
-  /// Saves the scores from all the rounds to the database and clears the list afterwards
+  /// Saves the scores from all the rounds to the database 
   /// If there is less than 5 rounds played it will do nothing
-  Future<void> saveAndClear() async {
-    if (_roundScores.length < 5) return;
-
-    try {
-      final int total = totalScore;
-      /// This creates a new record in the user collection in the database
-      /// cotains both the roundscores and the total roundscore
-      await pb.collection('user').create(body: {
-        'round_1': _roundScores[0],
-        'round_2': _roundScores[1],
-        'round_3': _roundScores[2],
-        'round_4': _roundScores[3],
-        'round_5': _roundScores[4],
-        'TotalScore': total,
-      });
-      print('Score gemt! Total: $total');
-    } catch (e) {
-      print('Fejl ved gemning af score: $e');
-    }
-    /// Clears the round scores after saving them to the database
-    clearRounds();
-  }
-
-  /// Saves game scores to the database using the individual rounds as parameters
-  /// Kept due to some of the code in the gamepage still using it
   Future<void> saveGameScore({
     required int round1,
     required int round2,
@@ -85,7 +60,8 @@ class ScorepageModel {
       });
       print('Score gemt! Total: $totalScore');
     } catch (e) {
-      print('Fejl ved gemning af score: $e');
+      print('Error when saving score: $e');
     }
-  } 
+  }
+   
 }

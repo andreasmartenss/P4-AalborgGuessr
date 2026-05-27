@@ -10,22 +10,6 @@ class PocketBaseService {
   /// [static] means only ONE exists for the whole app, instead of a new one being created each time
   static final PocketBase pb = PocketBase('http://130.225.39.250:8090');
 
-  // BRUGER VI FETCHDATA TIL NOGET?? BLEV FORVIRRET FORDI THUMB OG 0x0 ER LIDT MODSIGENDE SÅ SPURGTE CLAUDE OG DEN SIGER AT:
-  // "The actual fetching of photos for the game is entirely handled by PhotoPickerModel.pickUnseenPhoto(), which uses PocketBaseService.pb directly to query the photos_and_geopoint collection. fetchData() is completely separate from this and only ever printed to the console. It plays no role in the app whatsoever."
-  Future<void> fetchData() async {
-
-    final records = await pb.collection('photos_and_geopoint').getFullList();
-
-    for (final record in records) {
-      final imageFile = record.data['photos'];
-      final imageUrl =
-          'http://130.225.39.250:8090/api/files/${record.collectionId}/${record.id}/$imageFile?thumb=0x0'; //Thumb bruges til at konvertere billedet til en mindre størrelse, hvilket gør det hurtigere at hente og vise i appen
-
-      print(imageUrl); // Paste this URL in a browser to verify the image loads
-      print(record.data); // Prints the full record data for inspection
-    }
-  }
-
   /// Fetches the highest TotalScore from the 'user' collection.
   ///
   /// Sorts users by [TotalScore] in descending order and returns only the top 1.
@@ -41,10 +25,5 @@ class PocketBaseService {
       return records.items.first.data['TotalScore'] ?? 0;
     }
     return 0;
-  }
-
-  /// Kan dette ikke slettes? Det har måske været til at teste fetchData?
-  void main() {
-    fetchData();
   }
 }

@@ -60,7 +60,7 @@ class OsmLocationVm {
       );
     } catch (e) {
       // If anything above fails, it logs the error instead of crashing the app
-      print('Kunne ikke tegne linje: $e');
+      print('Did not draw the line: $e');
     }
   }
 }
