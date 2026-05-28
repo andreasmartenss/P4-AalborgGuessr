@@ -42,7 +42,7 @@ class PhotoPickerModel {
       }
     /// the loop will stop if the selected photo is equal to null.
     } while (selected == null);
-    /// thien it will add the selected photo and add it to the array of used photos, and thus return the selected photo.
+    /// then it will add the selected photo and add it to the array of used photos, and thus return the selected photo.
     _usedIds.add(selected.id);
     return selected;
   }
