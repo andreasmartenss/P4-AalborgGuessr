@@ -131,7 +131,7 @@ class GamePageVM extends ChangeNotifier {
       currentRound++;
       await startRound();
     } else {
-      currentRound++;
+      currentRound++; //Virker ikke uden?? hvorfor??
 
       /// giver dette mening? når den har ramt 5 runder, burde den så imcrement endnu engang?
       _timer?.cancel();
